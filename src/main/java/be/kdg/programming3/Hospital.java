@@ -1,5 +1,6 @@
 package be.kdg.programming3;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +13,17 @@ public class Hospital {
     private String hospitalName;
     private String hospitalAddress;
     private String[] departments;
+    private LocalDate establishedDate;
 
-    public Hospital(String hospitalName, String hospitalAddress, String[] departments) {
+    public Hospital(String hospitalName, String hospitalAddress, String[] departments, LocalDate establishedDate) {
         this.hospitalName = hospitalName;
         this.hospitalAddress = hospitalAddress;
         this.departments = departments;
+        this.establishedDate = establishedDate;
+    }
+
+    public LocalDate getEstablishedDate() {
+        return establishedDate;
     }
 
     public String getHospitalName() {
@@ -63,4 +70,15 @@ public class Hospital {
     public List<Doctor> getDoctors() {
         return doctors;
     }
+    @Override
+    public String toString() {
+        return  "Hospital{" +
+                "name='" + hospitalName + '\'' +
+                ", address='" + hospitalAddress + '\'' +
+                ", departments=" + String.join(", ", departments) +
+                ", established=" + establishedDate +
+                ", doctors=" + doctors.size() + " doctors" +
+                '}';
+    }
 }
+
