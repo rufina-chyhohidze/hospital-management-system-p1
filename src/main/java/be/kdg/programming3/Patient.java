@@ -2,12 +2,12 @@ package be.kdg.programming3;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 /**
- * Doctor (Many-to-Many with Patient) A Doctor can have many Patients. Each Patient can have many Doctors assigned.
- * Hospital (One-to-Many with Doctor) A Hospital can employ many Doctors. Each Doctor works in only one Hospital.
+ * Patient (Many-to-Many with Doctor)
+ * A Patient can have many Doctors assigned. Each Doctor can have many Patients.
  */
 public class Patient {
     private String firstName;
@@ -17,8 +17,19 @@ public class Patient {
     private String patientId;
     private double billingAmount;
     private LocalDate admissionDate;
+    private Set<Doctor> doctors;
 
-
+    /**
+     * Parameterized Constructor
+     *
+     * @param firstName      First name of the patient
+     * @param lastName       Last name of the patient
+     * @param age            Age of the patient
+     * @param gender         Gender of the patient
+     * @param patientId      Unique patient ID
+     * @param billingAmount  Total billing amount
+     * @param admissionDate  Date of admission
+     */
     public Patient(String firstName, String lastName, int age, Gender gender, String patientId, double billingAmount, LocalDate admissionDate) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,14 +41,14 @@ public class Patient {
         this.doctors = new HashSet<>();
     }
 
-    public double getBillingAmount() {
-        return billingAmount;
+    /**
+     * Default Constructor
+     */
+    public Patient() {
+        this.doctors = new HashSet<>();
     }
 
-    public LocalDate getAdmissionDate() {
-        return admissionDate;
-    }
-
+    // Getters and Setters
     public String getFirstName() {
         return firstName;
     }
@@ -62,40 +73,46 @@ public class Patient {
         return patientId;
     }
 
-     // doctors <-> patients
-    private Set<Doctor> doctors;
-
-    public Patient(){
-        this.doctors = new HashSet<>();
+    public double getBillingAmount() {
+        return billingAmount;
     }
 
+    public LocalDate getAdmissionDate() {
+        return admissionDate;
+    }
+
+    public Set<Doctor> getDoctors() {
+        return new HashSet<>(doctors); // Return a copy to maintain encapsulation
+    }
+
+    // Many-to-Many Relationship Methods
+
     /**
-     * method that adda doctor to a patient's list ensuring bidirectional relationship
-     * b.relationship - refers to a two-way association between two classes, where each class maintains a reference to the other.
-     * @param doctor
+     * Method that adds a doctor to a patient's list ensuring bidirectional relationship
+     * @param doctor The Doctor to be added
      */
     public void addDoctor(Doctor doctor){
+        if(doctor == null){
+            throw new IllegalArgumentException("Doctor cannot be null.");
+        }
         if (!doctors.contains(doctor)){
             doctors.add(doctor);
-            doctor.addPatient(this);
+            doctor.addPatient(this); // Bidirectional addition
         }
     }
 
     /**
-     * method to remove a doctor from a patient's list
-     * @param doctor
+     * Method to remove a doctor from a patient's list
+     * @param doctor The Doctor to be removed
      */
     public void removeDoctor(Doctor doctor){
         if(doctors.contains(doctor)){
             doctors.remove(doctor);
-            doctor.removePatient(this);
+            doctor.removePatient(this); // Bidirectional removal
         }
     }
 
-    public Set<Doctor> getDoctors() {
-        return doctors;
-    }
-
+    // toString() Method
     @Override
     public String toString() {
         return "Patient{" +
@@ -108,5 +125,29 @@ public class Patient {
                 ", admissionDate=" + admissionDate +
                 ", doctors=" + doctors.size() + " doctors" +
                 '}';
+    }
+
+    /**
+     * Overriding equals method based on patientId.
+     *
+     * @param o Object to compare
+     * @return true if equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Patient)) return false;
+        Patient patient = (Patient) o;
+        return Objects.equals(patientId, patient.patientId);
+    }
+
+    /**
+     * Overriding hashCode method based on patientId.
+     *
+     * @return hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(patientId);
     }
 }

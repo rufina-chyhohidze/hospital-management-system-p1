@@ -2,34 +2,56 @@ package be.kdg.programming3;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
- * Doctor (Many-to-Many with Patient) A Doctor can have many Patients. Each Patient can have many Doctors assigned.
- * Hospital (One-to-Many with Doctor) A Hospital can employ many Doctors. Each Doctor works in only one Hospital.
+ * Doctor (Many-to-Many with Patient)
+ * A Doctor can have many Patients. Each Patient can have many Doctors assigned.
+ * Hospital (One-to-Many with Doctor)
+ * A Hospital can employ many Doctors. Each Doctor works in only one Hospital.
  */
-
 public class Doctor {
     private String firstName;
     private String lastName;
-    private Department department; //using enum
+    private Department department; // Using enum
     private int licenseNumber;
     private double salary;
     private LocalDate hireDate;
+    private Gender gender;
+    private Hospital hospital; // Reference to Hospital
+    private Set<Patient> patients;
 
-    public Doctor(String firstName, String lastName, Department department, int licenseNumber,double salary, LocalDate hireDate) {
+    /**
+     * Parameterized Constructor
+     *
+     * @param firstName     First name of the doctor
+     * @param lastName      Last name of the doctor
+     * @param department    Department of specialization
+     * @param licenseNumber Unique license number
+     * @param salary        Salary of the doctor
+     * @param hireDate      Date of hiring
+     * @param gender        Gender of the doctor
+     */
+    public Doctor(String firstName, String lastName, Department department, int licenseNumber, double salary, LocalDate hireDate, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.department = department;
         this.licenseNumber = licenseNumber;
         this.salary = salary;
         this.hireDate = hireDate;
+        this.gender = gender;
         this.patients = new HashSet<>();
     }
-    public LocalDate getHireDate() {
-        return hireDate;
+
+    /**
+     * Default Constructor
+     */
+    public Doctor() {
+        this.patients = new HashSet<>();
     }
 
+    // Getters and Setters
     public String getFirstName() {
         return firstName;
     }
@@ -46,57 +68,98 @@ public class Doctor {
         return licenseNumber;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
     public double getSalary() {
         return salary;
     }
 
-    //many doctors <-> many patients
-    private Set<Patient> patients;
-
-    public Doctor(){
-        this.patients = new HashSet<>();
+    public LocalDate getHireDate() {
+        return hireDate;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
+    public Set<Patient> getPatients() {
+        return new HashSet<>(patients); // Return a copy to maintain encapsulation
+    }
+
+    // Many-to-Many Relationship Methods
+
     /**
-     * method to add a patient to the doctor's list
-     * @param patient
+     * Method to add a patient to the doctor's list
+     * @param patient The Patient to be added
      */
     public void addPatient(Patient patient){
+        if(patient == null){
+            throw new IllegalArgumentException("Patient cannot be null.");
+        }
         if(!patients.contains(patient)){
             patients.add(patient);
-            patient.addDoctor(this); //bidirectional addition
+            patient.addDoctor(this); // Bidirectional addition
         }
     }
 
     /**
-     * method to remove a patient from the list
-     * @param patient
+     * Method to remove a patient from the doctor's list
+     * @param patient The Patient to be removed
      */
     public void removePatient(Patient patient){
-      if(patients.contains(patient)){
-          patients.remove(patient);
-          patient.removeDoctor(this); ////bidirectional removal
-      }
+        if(patients.contains(patient)){
+            patients.remove(patient);
+            patient.removeDoctor(this); // Bidirectional removal
+        }
     }
 
-    public Set<Patient> getPatients() {
-        return patients;
-    }
+    // toString() Method
     @Override
     public String toString() {
-       return  "Doctor{" +
+        return "Doctor{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", department=" + department +
                 ", licenseNumber=" + licenseNumber +
                 ", salary=" + salary +
                 ", hireDate=" + hireDate +
+                ", gender=" + gender +
+                ", hospital=" + (hospital != null ? hospital.getHospitalName() : "No Hospital Assigned") +
                 ", patients=" + patients.size() + " patients" +
                 '}';
     }
-}
 
+    /**
+     * Overriding equals method based on licenseNumber.
+     *
+     * @param o Object to compare
+     * @return true if equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Doctor)) return false;
+        Doctor doctor = (Doctor) o;
+        return licenseNumber == doctor.licenseNumber;
+    }
+
+    /**
+     * Overriding hashCode method based on licenseNumber.
+     *
+     * @return hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(licenseNumber);
+    }
+}

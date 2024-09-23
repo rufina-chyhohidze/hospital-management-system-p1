@@ -1,31 +1,52 @@
 package be.kdg.programming3;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * Doctor (Many-to-Many with Patient) A Doctor can have many Patients. Each Patient can have many Doctors assigned.
- * Hospital (One-to-Many with Doctor) A Hospital can employ many Doctors. Each Doctor works in only one Hospital.
+ * Hospital (One-to-Many with Doctor)
+ * A Hospital can employ many Doctors. Each Doctor works in only one Hospital.
  */
-
 public class Hospital {
     private String hospitalName;
     private String hospitalAddress;
-    private String[] departments;
+    private List<Department> departments; // Changed from String[] to List<Department>
     private LocalDate establishedDate;
 
-    public Hospital(String hospitalName, String hospitalAddress, String[] departments, LocalDate establishedDate) {
+    // One-to-Many relationship: Hospital has many Doctors
+    private List<Doctor> doctors;
+
+    /**
+     * Parameterized Constructor
+     *
+     * @param hospitalName     Name of the hospital
+     * @param hospitalAddress  Address of the hospital
+     * @param departments      List of departments in the hospital
+     * @param establishedDate  Date when the hospital was established
+     */
+    public Hospital(String hospitalName, String hospitalAddress, List<Department> departments, LocalDate establishedDate) {
+        if (establishedDate.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Established date cannot be in the future.");
+        }
         this.hospitalName = hospitalName;
         this.hospitalAddress = hospitalAddress;
-        this.departments = departments;
+        this.departments = new ArrayList<>(departments); // Defensive copy
         this.establishedDate = establishedDate;
+        this.doctors = new ArrayList<>();
     }
 
-    public LocalDate getEstablishedDate() {
-        return establishedDate;
+    /**
+     * Default Constructor
+     */
+    public Hospital() {
+        this.doctors = new ArrayList<>();
+        this.departments = new ArrayList<>();
     }
 
+    // Getters
     public String getHospitalName() {
         return hospitalName;
     }
@@ -34,51 +55,101 @@ public class Hospital {
         return hospitalAddress;
     }
 
-    public String[] getDepartments() {
-        return departments;
+    public List<Department> getDepartments() {
+        return new ArrayList<>(departments); // Return a copy to maintain encapsulation
+    }
+
+    public LocalDate getEstablishedDate() {
+        return establishedDate;
+    }
+
+    public List<Doctor> getDoctors() {
+        return new ArrayList<>(doctors); // Return a copy to maintain encapsulation
     }
 
     /**
-     * each doctor belongs to one department within that hospital.
+     * Adds a doctor to the hospital and sets the hospital reference in the doctor.
+     *
+     * @param doctor The Doctor to be added
      */
-
-    //hospital ->many doctors
-    public List<Doctor> doctors;
-
-    public Hospital(){
-        this.doctors = new ArrayList<>();
-    }
-
-    /**
-     * method to add a doctor to the hospital
-     * @param doctor
-     */
-    public void addDoctor(Doctor doctor){
-        if(!doctors.contains(doctor)){
+    public void addDoctor(Doctor doctor) {
+        if (doctor == null) {
+            throw new IllegalArgumentException("Doctor cannot be null.");
+        }
+        if (!doctors.contains(doctor)) {
             doctors.add(doctor);
+            doctor.setHospital(this); // Establish bidirectional relationship
         }
     }
 
     /**
-     * method to remove a doctor from the hospital
-     * @param doctor
+     * Removes a doctor from the hospital and unsets the hospital reference in the doctor.
+     *
+     * @param doctor The Doctor to be removed
      */
-    public void removeDoctor(Doctor doctor){
-        doctors.remove(doctor);
+    public void removeDoctor(Doctor doctor) {
+        if (doctors.contains(doctor)) {
+            doctors.remove(doctor);
+            doctor.setHospital(null); // Remove bidirectional relationship
+        }
     }
 
-    public List<Doctor> getDoctors() {
-        return doctors;
+    /**
+     * Calculates the age of the hospital in years.
+     *
+     * @return Age in years
+     */
+    public int getHospitalAge() {
+        return Period.between(establishedDate, LocalDate.now()).getYears();
     }
+
+    /**
+     * toString method for Hospital class.
+     *
+     * @return String representation of Hospital
+     */
     @Override
     public String toString() {
-        return  "Hospital{" +
-                "name='" + hospitalName + '\'' +
-                ", address='" + hospitalAddress + '\'' +
-                ", departments=" + String.join(", ", departments) +
-                ", established=" + establishedDate +
-                ", doctors=" + doctors.size() + " doctors" +
+        StringBuilder deptBuilder = new StringBuilder();
+        for (int i = 0; i < departments.size(); i++) {
+            deptBuilder.append(departments.get(i).name());
+            if (i < departments.size() - 1) {
+                deptBuilder.append(", ");
+            }
+        }
+
+        return "Hospital{" +
+                "hospitalName='" + hospitalName + '\'' +
+                ", hospitalAddress='" + hospitalAddress + '\'' +
+                ", departments=" + deptBuilder.toString() +
+                ", establishedDate=" + establishedDate +
+                ", age=" + getHospitalAge() + " years" +
+                ", numberOfDoctors=" + doctors.size() + " doctors" +
                 '}';
     }
-}
 
+    /**
+     * Overriding equals method based on hospitalName and hospitalAddress.
+     *
+     * @param o Object to compare
+     * @return true if equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Hospital)) return false;
+        Hospital hospital = (Hospital) o;
+        return Objects.equals(hospitalName, hospital.hospitalName) &&
+                Objects.equals(hospitalAddress, hospital.hospitalAddress);
+    }
+
+    /**
+     * Overriding hashCode method based on hospitalName and hospitalAddress.
+     *
+     * @return hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(hospitalName, hospitalAddress);
+    }
+}
