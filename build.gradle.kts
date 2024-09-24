@@ -15,7 +15,7 @@ repositories {
 
 tasks.getByName("run", JavaExec::class) {
     standardInput = System.`in`
-}
+} // To enable reading from the terminal (.\gradlew.run)
 
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
