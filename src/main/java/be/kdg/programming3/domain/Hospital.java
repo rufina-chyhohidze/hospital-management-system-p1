@@ -1,4 +1,4 @@
-package be.kdg.programming3;
+package be.kdg.programming3.domain;
 
 import java.time.LocalDate;
 import java.time.Period;
