@@ -19,14 +19,6 @@ public class Hospital {
     // One-to-Many relationship: Hospital has many Doctors
     private List<Doctor> doctors;
 
-    /**
-     * Parameterized Constructor
-     *
-     * @param hospitalName     Name of the hospital
-     * @param hospitalAddress  Address of the hospital
-     * @param departments      List of departments in the hospital
-     * @param establishedDate  Date when the hospital was established
-     */
     public Hospital(String hospitalName, String hospitalAddress, List<Department> departments, LocalDate establishedDate) {
         if (establishedDate.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Established date cannot be in the future.");

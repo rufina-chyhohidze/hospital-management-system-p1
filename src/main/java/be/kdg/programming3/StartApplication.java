@@ -3,7 +3,9 @@ package be.kdg.programming3;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 /**
  * The console application shows a menu that has at least the following features:
@@ -20,6 +22,7 @@ import java.util.Scanner;
 public class StartApplication {
     private static final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
+
         DataFactory.seed();
 
         // Display the menu repeatedly until the user chooses to quit
@@ -157,23 +160,27 @@ public class StartApplication {
             }
         }
 
+        LocalDate finalAdmissionDate = admissionDate;
+        List<String> filteredPatients = DataFactory.patients.stream()
+                .filter(patient -> nameInput.isEmpty() || patient.getFirstName().toLowerCase().contains(nameInput) || patient.getLastName().toLowerCase().contains(nameInput))
+                .filter(patient -> finalAdmissionDate == null || patient.getAdmissionDate().equals(finalAdmissionDate))
+                // Using map to transform each Patient to a simplified String representation
+                .map(patient -> String.format("Patient: %s %s, ID: %s, Admission Date: %s",
+                        patient.getFirstName(),
+                        patient.getLastName(),
+                        patient.getPatientId(),
+                        patient.getAdmissionDate()))
+                .collect(Collectors.toList());
+
         System.out.println("\nFiltered Patients");
         System.out.println("==================");
-        boolean found = false;
-        for (Patient patient : DataFactory.patients) {
-            boolean matchesName = nameInput.isEmpty() || patient.getFirstName().toLowerCase().contains(nameInput) || patient.getLastName().toLowerCase().contains(nameInput);
-            boolean matchesDate = (admissionDate == null) || patient.getAdmissionDate().equals(admissionDate);
-
-            if (matchesName && matchesDate) {
-                System.out.println(patient);
-                found = true;
-            }
-        }
-
-        if (!found) {
+        if (filteredPatients.isEmpty()) {
             System.out.println("No patients match the given criteria.");
+        } else {
+            // Print filtered patient information
+            filteredPatients.forEach(System.out::println);
         }
-    }
+}
 }
 
 

@@ -20,19 +20,9 @@ public class Doctor {
     private LocalDate hireDate;
     private Gender gender;
     private Hospital hospital; // Reference to Hospital
-    private Set<Patient> patients;
+    private Set<Patient> patients; //relationship link to patients
 
-    /**
-     * Parameterized Constructor
-     *
-     * @param firstName     First name of the doctor
-     * @param lastName      Last name of the doctor
-     * @param department    Department of specialization
-     * @param licenseNumber Unique license number
-     * @param salary        Salary of the doctor
-     * @param hireDate      Date of hiring
-     * @param gender        Gender of the doctor
-     */
+
     public Doctor(String firstName, String lastName, Department department, int licenseNumber, double salary, LocalDate hireDate, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;

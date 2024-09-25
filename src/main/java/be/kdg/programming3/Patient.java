@@ -17,19 +17,8 @@ public class Patient {
     private String patientId;
     private double billingAmount;
     private LocalDate admissionDate;
-    private Set<Doctor> doctors;
+    private Set<Doctor> doctors; //relationship link to doctors that shows many to many r.
 
-    /**
-     * Parameterized Constructor
-     *
-     * @param firstName      First name of the patient
-     * @param lastName       Last name of the patient
-     * @param age            Age of the patient
-     * @param gender         Gender of the patient
-     * @param patientId      Unique patient ID
-     * @param billingAmount  Total billing amount
-     * @param admissionDate  Date of admission
-     */
     public Patient(String firstName, String lastName, int age, Gender gender, String patientId, double billingAmount, LocalDate admissionDate) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,6 +64,10 @@ public class Patient {
 
     public double getBillingAmount() {
         return billingAmount;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
     }
 
     public LocalDate getAdmissionDate() {
