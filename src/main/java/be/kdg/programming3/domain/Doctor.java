@@ -90,13 +90,14 @@ public class Doctor {
 
     /**
      * Method to add a patient to the doctor's list
+     *
      * @param patient The Patient to be added
      */
-    public void addPatient(Patient patient){
-        if(patient == null){
+    public void addPatient(Patient patient) {
+        if (patient == null) {
             throw new IllegalArgumentException("Patient cannot be null.");
         }
-        if(!patients.contains(patient)){
+        if (!patients.contains(patient)) {
             patients.add(patient);
             patient.addDoctor(this); // Bidirectional addition
         }
@@ -104,10 +105,11 @@ public class Doctor {
 
     /**
      * Method to remove a patient from the doctor's list
+     *
      * @param patient The Patient to be removed
      */
-    public void removePatient(Patient patient){
-        if(patients.contains(patient)){
+    public void removePatient(Patient patient) {
+        if (patients.contains(patient)) {
             patients.remove(patient);
             patient.removeDoctor(this); // Bidirectional removal
         }
