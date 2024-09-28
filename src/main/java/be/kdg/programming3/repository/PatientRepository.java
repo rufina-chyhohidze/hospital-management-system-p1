@@ -6,16 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PatientRepository {
-    private final List<Patient> patients = new ArrayList<>();
-
-    public List<Patient> findAll() {
-        return patients;
-    }
-
-    public Optional<Patient> findById(String patientId) {
-        return patients.stream()
-                .filter(patient -> patient.getPatientId().equals(patientId))
-                .findFirst();
-    }
+public interface PatientRepository {
+    void addPatient(Patient patient);
+    void updatePatient(Patient patient);
+    Optional<Patient> findById(String patientId);
+    List<Patient> findAll();
+    void removePatient(String patientId);
 }

@@ -2,8 +2,12 @@ package be.kdg.programming3.presentation;
 
 import be.kdg.programming3.domain.Department;
 import be.kdg.programming3.domain.Doctor;
+import be.kdg.programming3.domain.Gender;
 import be.kdg.programming3.domain.Patient;
 import be.kdg.programming3.repository.DataFactory;
+import be.kdg.programming3.service.DoctorService;
+import be.kdg.programming3.service.PatientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -17,12 +21,26 @@ import java.util.stream.Collectors;
 public class Menu {
     private static final Scanner scanner = new Scanner(System.in);
 
+    private final DoctorService doctorService;
+    private final PatientService patientService;
+
+    /*
+    * This ensures loose coupling between the layers
+    *  as the Menu class only depends on the interfaces
+    *  (DoctorService, PatientService), not on the actual implementations.
+    * */
+    @Autowired
+    public Menu(DoctorService doctorService, PatientService patientService) {
+        this.doctorService = doctorService;
+        this.patientService = patientService;
+    }
+
     public void print() {
         DataFactory.seed();
 
         while (true) {
             printMenu();
-            int choice = getUserChoice(0, 4); // Adjusted to 4 based on menu options
+            int choice = getUserChoice(0,5); // Adjusted to 4 based on menu options
 
             switch (choice) {
                 case 0:
@@ -40,6 +58,8 @@ public class Menu {
                 case 4:
                     showPatientsWithFilters();
                     break;
+                case 5:addPatient();
+                break;
                 default:
                     System.out.println("Invalid choice. Please select again.");
             }
@@ -57,7 +77,8 @@ public class Menu {
         System.out.println("2) Show doctors by department");
         System.out.println("3) Show all patients");
         System.out.println("4) Show patients with name and/or admission date");
-        System.out.print("Choice (0-4): ");
+        System.out.println("5) Add a patient");
+        System.out.print("Choice (0-5): ");
 
     }
 
@@ -182,6 +203,42 @@ public class Menu {
             // Print filtered patient information
             filteredPatients.forEach(System.out::println);
         }
+    }
+    private void addPatient() {
+        System.out.println("Enter patient's first name: ");
+        String firstName = scanner.nextLine();
+
+        System.out.println("Enter patient's last name: ");
+        String lastName = scanner.nextLine();
+
+        System.out.println("Enter patient's age: ");
+        int age = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        System.out.println("Enter patient's gender (MALE/FEMALE): ");
+        Gender gender = Gender.valueOf(scanner.nextLine().toUpperCase());
+
+        System.out.println("Enter patient's ID: ");
+        String patientId = scanner.nextLine();
+
+        System.out.println("Enter patient's billing amount: ");
+        double billingAmount = scanner.nextDouble();
+        scanner.nextLine(); // Consume the newline character
+
+        System.out.println("Enter patient's admission date (yyyy-MM-dd): ");
+        String dateInput = scanner.nextLine();
+        LocalDate admissionDate;
+        try {
+            admissionDate = LocalDate.parse(dateInput, DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (DateTimeParseException e) {
+            System.out.println("Invalid date format. Please use yyyy-MM-dd.");
+            return;
+        }
+
+        // Create a new Patient object using the correct constructor
+        Patient newPatient = new Patient(firstName, lastName, age, gender, patientId, billingAmount, admissionDate);
+        patientService.addPatient(newPatient);
+        System.out.println("Patient added successfully!");
     }
 
 }

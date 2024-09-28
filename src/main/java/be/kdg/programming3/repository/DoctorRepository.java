@@ -5,18 +5,12 @@ import be.kdg.programming3.domain.Doctor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class DoctorRepository {
-    private final List<Doctor> doctors = new ArrayList<>();
-
-    public List<Doctor> findAll() {
-        return doctors;
-    }
-
-    public List<Doctor> findByDepartment(Department department) {
-        return doctors.stream()
-                .filter(doctor -> doctor.getDepartment().equals(department))
-                .collect(Collectors.toList());
-    }
+public interface DoctorRepository {
+    List<Doctor> findAll();
+    List<Doctor> findByDepartment(Department department);
+    Doctor findByLicenseNumber(int licenseNumber);
+    void addDoctor(Doctor doctor);
 }

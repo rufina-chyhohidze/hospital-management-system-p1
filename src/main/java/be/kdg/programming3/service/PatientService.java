@@ -1,23 +1,16 @@
 package be.kdg.programming3.service;
 
 import be.kdg.programming3.domain.Patient;
-import be.kdg.programming3.repository.PatientRepository;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
-public class PatientService {
-    private final PatientRepository patientRepository;
+public interface PatientService {
+    List<Patient> getAllPatients();
 
-    public PatientService(PatientRepository patientRepository) {
-        this.patientRepository = patientRepository;
-    }
+    List<Patient> getPatientsByNameOrAdmissionDate(String name, LocalDate admissionDate);
 
-    public List<Patient> getAllPatients() {
-        return patientRepository.findAll();
-    }
+    Patient findPatientById(String patientId);
 
-    public Optional<Patient> getPatientById(String patientId) {
-        return patientRepository.findById(patientId);
-    }
+    void addPatient(Patient patient);
 }
