@@ -22,6 +22,9 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
+tasks.getByName("bootRun",JavaExec::class){
+	standardInput = System.`in`
+}
 
 tasks.withType<Test> {
 	useJUnitPlatform()
