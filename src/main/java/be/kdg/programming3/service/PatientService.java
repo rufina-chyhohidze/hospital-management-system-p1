@@ -13,4 +13,6 @@ public interface PatientService {
     Patient findPatientById(String patientId);
 
     void addPatient(Patient patient);
+
+    void removePatient(String patientId);
 }

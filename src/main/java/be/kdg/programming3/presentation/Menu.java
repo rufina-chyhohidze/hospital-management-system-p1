@@ -15,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 @Component
 public class Menu {
@@ -40,8 +39,8 @@ public class Menu {
 
         while (true) {
             printMenu();
-            int choice = getUserChoice(0,5); // Adjusted to 4 based on menu options
 
+            int choice = getUserChoice(0,6);
             switch (choice) {
                 case 0:
                     System.out.println("Exiting the application. Goodbye!");
@@ -59,15 +58,16 @@ public class Menu {
                     showPatientsWithFilters();
                     break;
                 case 5:addPatient();
-                break;
+                    break;
+                case 6:findPatientById();
+                    break;
                 default:
                     System.out.println("Invalid choice. Please select again.");
             }
         }
     }
-
     /**
-     * Prints the main menu.
+     * Print the main menu.
      */
     private static void printMenu() {
         System.out.println("\nWhat would you like to do?");
@@ -78,7 +78,8 @@ public class Menu {
         System.out.println("3) Show all patients");
         System.out.println("4) Show patients with name and/or admission date");
         System.out.println("5) Add a patient");
-        System.out.print("Choice (0-5): ");
+        System.out.println("6) Find a patient by ID");
+        System.out.print("Choice (0-6): ");
 
     }
 
@@ -99,7 +100,7 @@ public class Menu {
                     choice = Integer.parseInt(input);
 
                     //choice = scanner.nextInt();when i remove two previous lines
-                    // and put this one i cant type name for searching, its immid asking for a addmission date
+                    // and put this one i cant type name for searching, its immid asking for an addmission date
 
                 if (choice >= min && choice <= max) {
                     break;
@@ -152,21 +153,31 @@ public class Menu {
         }
     }
 
+
+/*====================================================================================================*/
+                            //PATIENTS METHODS
     /**
      * Displays all patients.
      */
-    private static void showAllPatients() {
+    private void showAllPatients() {
         System.out.println("\nAll Patients");
         System.out.println("============");
-        for (Patient patient : DataFactory.patients) {
-            System.out.println(patient);
+        List<Patient> patients = patientService.getAllPatients();
+        if(patients.isEmpty()) {
+            System.out.println("No patients found.");
+        }else{
+            for (Patient patient : patients) {
+                System.out.println(patient);
+            }
         }
     }
 
     /**
      * Displays patients filtered by name and/or admission date.
+     *  Filtering logic stays in the service layer
+     *  Menu class interacts only with the user
      */
-    private static void showPatientsWithFilters() {
+    private void showPatientsWithFilters() {
         System.out.print("\nEnter (part of) a name or leave blank: ");
         String nameInput = scanner.nextLine().trim().toLowerCase();
 
@@ -182,18 +193,7 @@ public class Menu {
                 return;
             }
         }
-
-        LocalDate finalAdmissionDate = admissionDate;
-        List<String> filteredPatients = DataFactory.patients.stream()
-                .filter(patient -> nameInput.isEmpty() || patient.getFirstName().toLowerCase().contains(nameInput) || patient.getLastName().toLowerCase().contains(nameInput))
-                .filter(patient -> finalAdmissionDate == null || patient.getAdmissionDate().equals(finalAdmissionDate))
-                // Using map to transform each Patient to a simplified String representation
-                .map(patient -> String.format("Patient: %s %s, ID: %s, Admission Date: %s",
-                        patient.getFirstName(),
-                        patient.getLastName(),
-                        patient.getPatientId(),
-                        patient.getAdmissionDate()))
-                .collect(Collectors.toList());
+        List<Patient> filteredPatients = patientService.getPatientsByNameOrAdmissionDate(nameInput,admissionDate);
 
         System.out.println("\nFiltered Patients");
         System.out.println("==================");
@@ -201,9 +201,14 @@ public class Menu {
             System.out.println("No patients match the given criteria.");
         } else {
             // Print filtered patient information
-            filteredPatients.forEach(System.out::println);
+            filteredPatients.forEach(patient -> {
+                System.out.println(patient);
+            });
         }
     }
+    /**
+     * method to add a patient
+     */
     private void addPatient() {
         System.out.println("Enter patient's first name: ");
         String firstName = scanner.nextLine();
@@ -239,6 +244,23 @@ public class Menu {
         Patient newPatient = new Patient(firstName, lastName, age, gender, patientId, billingAmount, admissionDate);
         patientService.addPatient(newPatient);
         System.out.println("Patient added successfully!");
+    }
+
+    /**
+     * search a patient by ID
+     */
+    private void findPatientById(){
+        System.out.println("Enter patient's ID: ");
+        String patientId = scanner.nextLine().trim();
+
+        //making call to a service to find the patient by ID
+        Patient patient = patientService.findPatientById(patientId);
+
+        if(patient == null) {
+            System.out.println("Patient with ID: " +patientId + " not found.");
+        }else {
+            System.out.println(patient);
+        }
     }
 
 }
