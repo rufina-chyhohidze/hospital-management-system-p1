@@ -41,6 +41,15 @@ public class Doctor {
         this.patients = new HashSet<>();
     }
 
+    //constructor for addition a doctor
+    public Doctor(String firstName, String lastName, int licenseNumber, Department department) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.licenseNumber = licenseNumber;
+        this.department = department;
+        this.patients = new HashSet<>(); //for patient initialisation
+    }
+
     // Getters and Setters
     public String getFirstName() {
         return firstName;
@@ -89,8 +98,8 @@ public class Doctor {
     // Many-to-Many Relationship Methods
 
     /**
-     * Method to add a patient to the doctor's list
-     *
+     * static method to add a patient to the doctor's list
+     * for usage in DataFACTORY
      * @param patient The Patient to be added
      */
     public void addPatient(Patient patient) {
@@ -99,19 +108,19 @@ public class Doctor {
         }
         if (!patients.contains(patient)) {
             patients.add(patient);
-            patient.addDoctor(this); // Bidirectional addition
+            patient.addDoctor(this); // bidirectional addition
         }
     }
 
     /**
-     * Method to remove a patient from the doctor's list
-     *
+     * static method to remove a patient from the doctor's list
+     * to use in DataFactory
      * @param patient The Patient to be removed
      */
     public void removePatient(Patient patient) {
         if (patients.contains(patient)) {
             patients.remove(patient);
-            patient.removeDoctor(this); // Bidirectional removal
+            patient.removeDoctor(this); // bidirectional removal
         }
     }
 

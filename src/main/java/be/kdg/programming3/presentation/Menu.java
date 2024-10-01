@@ -16,6 +16,8 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
+import static be.kdg.programming3.repository.DataFactory.doctors;
+
 @Component
 public class Menu {
     private static final Scanner scanner = new Scanner(System.in);
@@ -40,7 +42,7 @@ public class Menu {
         while (true) {
             printMenu();
 
-            int choice = getUserChoice(0,6);
+            int choice = getUserChoice(0,7);
             switch (choice) {
                 case 0:
                     System.out.println("Exiting the application. Goodbye!");
@@ -61,13 +63,15 @@ public class Menu {
                     break;
                 case 6:findPatientById();
                     break;
+                case 7:addDoctor();
+                    break;
                 default:
                     System.out.println("Invalid choice. Please select again.");
             }
         }
     }
     /**
-     * Print the main menu.
+     * print the main menu and make a choice!
      */
     private static void printMenu() {
         System.out.println("\nWhat would you like to do?");
@@ -79,13 +83,13 @@ public class Menu {
         System.out.println("4) Show patients with name and/or admission date");
         System.out.println("5) Add a patient");
         System.out.println("6) Find a patient by ID");
-        System.out.print("Choice (0-6): ");
+        System.out.println("7) Add a doctor");
+        System.out.print("Choice (0-7): ");
 
     }
 
     /**
      * Gets the user's menu choice within the specified range.
-     *
      * @param min Minimum valid choice
      * @param max Maximum valid choice
      * @return The user's choice as an integer
@@ -114,22 +118,65 @@ public class Menu {
         }
         return choice;
     }
+    /*================================================================================================*/
+                                    //DOCTORS METHODS
+
+    /**
+     *add doctor to a certain department
+     */
+    public void addDoctor(){
+        System.out.println("Enter the name of the doctor to add: ");
+        String firstName = scanner.nextLine().trim();
+        System.out.println("Enter Doctor's last name: ");
+        String lastName = scanner.nextLine();
+        int licenseNumber = 0;  // Declare licenseNumber as int
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.print("Enter Doctor's license number: ");
+            String licenseNumberInput = scanner.nextLine().trim();
+
+            try {
+                licenseNumber = Integer.parseInt(licenseNumberInput);
+                validInput = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid numeric license number.");
+            }
+        }
+        // make a choice of departments to add a new doctor to one.
+        System.out.println("Available departments: ");
+        Department[] departments = Department.values();
+        for (int i = 0; i < departments.length; i++) {
+            System.out.println((i + 1) + ")" + departments[i].name());
+        }
+        System.out.println("Select department by number (1-" + departments.length + "): ");
+        int departmentChoice = getUserChoice(1, departments.length);
+        Department department = departments[departmentChoice - 1];
+
+        Doctor newDoctor = new Doctor(firstName, lastName, licenseNumber, department);
+        doctorService.addDoctor(newDoctor);
+        System.out.println("Doctor: " + firstName + " " + lastName + " with licence number: " + licenseNumber + " has been added.");
+    }
 
     /**
      * Displays all doctors.
      */
-    private static void showAllDoctors() {
+    private void showAllDoctors() {
+        List<Doctor> allDoctors = doctorService.getAllDoctors();
+
         System.out.println("\nAll Doctors");
         System.out.println("===========");
-        for (Doctor doctor : DataFactory.doctors) {
-            System.out.println(doctor);
+        if (allDoctors.isEmpty()) {
+            System.out.println("No doctors found.");
+        } else {
+            allDoctors.forEach(System.out::println);
         }
     }
 
     /**
      * Displays doctors filtered by department.
      */
-    private static void showDoctorsByDepartment() {
+    private void showDoctorsByDepartment() {
         System.out.println("\nDepartments:");
         Department[] departments = Department.values();
         for (int i = 0; i < departments.length; i++) {
@@ -139,20 +186,17 @@ public class Menu {
         int choice = getUserChoice(1, departments.length);
         Department selectedDepartment = departments[choice - 1];
 
+        List<Doctor> doctorsInDepartment = doctorService.getDoctorsByDepartment(selectedDepartment);
+
         System.out.println("\nDoctors in " + selectedDepartment.name() + " Department");
         System.out.println("===============================================");
-        boolean found = false;
-        for (Doctor doctor : DataFactory.doctors) {
-            if (doctor.getDepartment() == selectedDepartment) {
-                System.out.println(doctor);
-                found = true;
-            }
-        }
-        if (!found) {
+
+        if (doctorsInDepartment.isEmpty()) {
             System.out.println("No doctors found in this department.");
+        } else {
+            doctorsInDepartment.forEach(System.out::println);  // Using toString() method from Doctor class
         }
     }
-
 
 /*====================================================================================================*/
                             //PATIENTS METHODS

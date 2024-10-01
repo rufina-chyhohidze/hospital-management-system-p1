@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Service
 public class DoctorServiceImpl implements DoctorService {
 
+    @Autowired
     private final DoctorRepository doctorRepository;
 
     @Autowired
