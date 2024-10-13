@@ -5,7 +5,6 @@ import be.kdg.programming3.service.DoctorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/doctors")
@@ -27,19 +25,20 @@ public class DoctorController {
     }
     @GetMapping
     public String getAllDoctors(Model model){
-        logger.debug("Fetching all doctors...");
+        logger.info("Fetching all doctors...");
         model.addAttribute("doctors", doctorService.getAllDoctors());
         return "doctors";
     }
 
     @GetMapping("/add")
     public String showAddDoctorForm(Model model) {
+        logger.info("Processing doctor's form...");
         model.addAttribute("doctor", new Doctor());
         return "adddoctor"; //
     }
     @PostMapping("/add")
     public String addDoctor(@ModelAttribute("doctor") Doctor doctor){
-        logger.debug("Adding new doctor...{}", doctor);
+        logger.info("Adding new doctor...{}", doctor);
         doctorService.addDoctor(doctor);
         return "redirect:/doctors";
     }

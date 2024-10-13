@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +27,7 @@ public class PatientController {
 
     @GetMapping
     public String getAllPatients(Model model) {
-        logger.debug("Fetching all patients...");
+        logger.info("Fetching all patients...");
         List<Patient> patients = patientService.getAllPatients();
         model.addAttribute("patients", patients);
         return "patients"; // returns the view called patients.html
@@ -36,11 +35,12 @@ public class PatientController {
     @GetMapping ("/add")
     public String addPatientForm(Model model) {
         model.addAttribute("patient", new Patient());
+        logger.info("Processing patient's form...");
         return "addpatient"; // returns the form to add a patient
     }
     @PostMapping("/add")
     public String addPatient(@ModelAttribute("patient") Patient patient) {
-        logger.debug("Adding new patient...{}",patient.toString());
+        logger.info("Adding new patient...{}",patient.toString());
         patientService.addPatient(patient);
         return "redirect:/patients";
     }

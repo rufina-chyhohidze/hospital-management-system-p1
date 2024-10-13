@@ -42,8 +42,10 @@ public class PatientServiceImpl implements PatientService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public Patient findPatientById(String patientId) {
+        logger.info("Getting patient by id {}...", patientId);
         return patientRepository.findPatientById(patientId);
     }
 
@@ -54,6 +56,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void removePatient(String patientId) {
+        logger.info("Removing patient {}...", patientId);
         patientRepository.removePatient(patientId);
     }
 }

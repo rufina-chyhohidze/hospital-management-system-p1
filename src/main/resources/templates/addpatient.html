@@ -12,11 +12,23 @@
     <label for="lastName">Last Name:</label>
     <input type="text" th:field="*{lastName}" id="lastName" /><br/>
 
+    <label for="patient_id">Patient ID(P0000):</label>
+    <input type="text" th:field="*{patientId}" id="patient_id" /><br/>
+
     <label for="age">Age:</label>
     <input type="number" th:field="*{age}" id="age" /><br/>
 
+    <label for="gender">Gender:</label>
+    <select th:field="*{gender}" id="gender">
+        <option th:value="MALE">Male</option>
+        <option th:value="FEMALE">Female</option>
+    </select><br>
+
     <label for="admissionDate">Admission Date:</label>
     <input type="date" th:field="*{admissionDate}" id="admissionDate" /><br/>
+
+    <label for="billing_amount">Billing amount:</label>
+    <input type="number" th:field="*{billingAmount}" id="billing_amount" /><br/>
 
     <button type="submit">Add Patient</button>
 

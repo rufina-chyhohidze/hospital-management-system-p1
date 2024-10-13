@@ -1,6 +1,9 @@
 package be.kdg.programming3.repository;
 
 import be.kdg.programming3.domain.Patient;
+import be.kdg.programming3.presentation.PatientController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.Optional;
 @Repository
 public class PatientRepositoryImpl implements PatientRepository {
     private final List<Patient> patients = new ArrayList<>();
+    private static final Logger logger = LoggerFactory.getLogger(PatientRepositoryImpl.class);
 
 
     @Override
@@ -23,8 +27,8 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     @Override
     public void savePatient(Patient patient) {
+        logger.info("Saving patient {}", patient);
         patients.add(patient);
-
     }
 
 
@@ -35,6 +39,7 @@ public class PatientRepositoryImpl implements PatientRepository {
 
     @Override
     public void removePatient(String patientId) {
+        logger.info("Removing patient {}", patientId);
         patients.removeIf(patient -> patient.getPatientId().equals(patientId));
     }
 

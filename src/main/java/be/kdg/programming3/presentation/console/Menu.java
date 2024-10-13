@@ -4,9 +4,12 @@ import be.kdg.programming3.domain.Department;
 import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Gender;
 import be.kdg.programming3.domain.Patient;
+import be.kdg.programming3.presentation.PatientController;
 import be.kdg.programming3.repository.DataFactory;
 import be.kdg.programming3.service.DoctorService;
 import be.kdg.programming3.service.PatientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +25,6 @@ public class Menu {
 
     private final DoctorService doctorService;
     private final PatientService patientService;
-
     /*
     * This ensures loose coupling between the layers
     *  as the Menu class only depends on the interfaces
@@ -274,6 +276,7 @@ public class Menu {
         }
         List<Patient> filteredPatients = patientService.getPatientsByNameOrAdmissionDate(nameInput,admissionDate);
 
+
         System.out.println("\nFiltered Patients");
         System.out.println("==================");
         if (filteredPatients.isEmpty()) {
@@ -341,6 +344,4 @@ public class Menu {
             System.out.println(patient);
         }
     }
-    //
-
 }
