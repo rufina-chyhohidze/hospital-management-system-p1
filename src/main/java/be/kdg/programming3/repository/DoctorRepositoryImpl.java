@@ -11,29 +11,22 @@ import java.util.stream.Collectors;
 
 @Repository
 public class DoctorRepositoryImpl implements DoctorRepository {
-    private final List<Doctor> doctorList;
 
-    public DoctorRepositoryImpl() {
-        this.doctorList = DataFactory.doctors; // Example of loading initial data
-    }
+    private final List<Doctor> doctorList = new ArrayList<>();
+
     @Override
-    public List<Doctor> findAll() {
-        return DataFactory.doctors; // In-memory data source for now
+    public List<Doctor> getAllDoctors() {
+        return new ArrayList<>(doctorList);
     }
 
     @Override
     public List<Doctor> findByDepartment(Department department) {
-        return DataFactory.doctors.stream()
-                .filter(doctor -> doctor.getDepartment() == department)
-                .collect(Collectors.toList());
+        return doctorList.stream().filter(doctor -> doctor.getDepartment().equals(department)).collect(Collectors.toList());
     }
 
     @Override
     public Doctor findByLicenseNumber(int licenseNumber) {
-        return DataFactory.doctors.stream()
-                .filter(doctor -> doctor.getLicenseNumber() == licenseNumber)
-                .findFirst()
-                .orElse(null);
+        return doctorList.stream().filter(doctor -> doctor.getLicenseNumber() == licenseNumber).findFirst().get();
     }
 
     @Override

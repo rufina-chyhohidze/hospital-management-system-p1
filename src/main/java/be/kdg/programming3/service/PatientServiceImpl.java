@@ -56,5 +56,4 @@ public class PatientServiceImpl implements PatientService {
     public void removePatient(String patientId) {
         patientRepository.removePatient(patientId);
     }
-
 }

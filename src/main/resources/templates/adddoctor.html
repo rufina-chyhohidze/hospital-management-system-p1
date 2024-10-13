@@ -11,23 +11,36 @@
 <h1>Add Doctor</h1>
 <form th:action="@{/doctors/add}" th:object="${doctor}" method="post">
     <label for="firstName">First Name:</label>
-    <input type="text" th:field="*{firstName}" id="firstName" /><br/>
+    <input type="text" th:field="*{firstName}" id="firstName" required/><br>
 
     <label for="lastName">Last Name:</label>
-    <input type="text" th:field="*{lastName}" /><br/>
+    <input type="text" th:field="*{lastName}" id="lastName" required/><br>
 
     <label for="licenseNumber">License Number:</label>
-    <input type="text" th:field="*{licenseNumber}" id="licenseNumber" /><br/>
+    <input type="number" th:field="*{licenseNumber}" id="licenseNumber" required/><br>
+
+    <label for="salary">Salary:</label>
+    <input type="number" th:field="*{salary}" id="salary" required/><br>
 
     <label for="department">Department:</label>
     <select th:field="*{department}" id="department">
         <option th:each="dept : ${T(be.kdg.programming3.domain.Department).values()}"
-                th:value="${dept}"
-                th:text="${dept}"></option>
-    </select><br/>
+                th:value="${dept}" th:text="${dept}"></option>
+    </select><br>
+
+    <label for="hireDate">Hire Date:</label>
+    <input type="date" th:field="*{hireDate}" id="hireDate" required/><br>
+
+    <label for="gender">Gender:</label>
+    <select th:field="*{gender}" id="gender">
+        <option th:value="MALE">Male</option>
+        <option th:value="FEMALE">Female</option>
+    </select><br>
 
     <button type="submit">Add Doctor</button>
 </form>
+
+<a th:href="@{/doctors}">Back to All Doctors</a>
 
 </body>
 </html>

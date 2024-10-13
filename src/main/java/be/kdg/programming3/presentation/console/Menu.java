@@ -127,7 +127,7 @@ public class Menu {
         String firstName = scanner.nextLine().trim();
         System.out.println("Enter Doctor's last name: ");
         String lastName = scanner.nextLine();
-        int licenseNumber = 0;  // Declare licenseNumber as int
+        int licenseNumber = 0;
         boolean validInput = false;
 
         while (!validInput) {
@@ -141,6 +141,7 @@ public class Menu {
                 System.out.println("Invalid input. Please enter a valid numeric license number.");
             }
         }
+
         // make a choice of departments to add a new doctor to one.
         System.out.println("Available departments: ");
         Department[] departments = Department.values();
@@ -151,9 +152,45 @@ public class Menu {
         int departmentChoice = getUserChoice(1, departments.length);
         Department department = departments[departmentChoice - 1];
 
-        Doctor newDoctor = new Doctor(firstName, lastName, licenseNumber, department);
+        double salary =0.0;
+        validInput = false;
+        while (!validInput) {
+            System.out.print("Enter Doctor's salary: ");
+            String salaryInput = scanner.nextLine().trim();
+            try{
+                salary = Double.parseDouble(salaryInput);
+                validInput = true;
+            }catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid numeric salary.");
+            }
+        }
+
+        LocalDate hireDate = null;
+        validInput = false;
+        while (!validInput) {
+            System.out.print("Enter Doctor's hire date (YYYY-MM-DD): ");
+            String hireDateInput = scanner.nextLine().trim();
+            try{
+                hireDate = LocalDate.parse(hireDateInput, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                validInput = true;
+            }catch (DateTimeParseException e) {
+                System.out.println("Invalid input. Please enter a valid date (YYYY-MM-DD): ");
+            }
+        }
+        System.out.println("Available genders: ");
+        Gender[] genders = Gender.values(); // Assuming you have an enum for Gender
+        for (int i = 0; i < genders.length; i++) {
+            System.out.println((i + 1) + ") " + genders[i].name());
+        }
+        System.out.println("Select gender by number (1-" + genders.length + "): ");
+        int genderChoice = getUserChoice(1, genders.length);
+        Gender gender = genders[genderChoice - 1];
+
+
+        Doctor newDoctor = new Doctor(firstName, lastName, department, licenseNumber, salary, hireDate, gender);
         doctorService.addDoctor(newDoctor);
-        System.out.println("Doctor: " + firstName + " " + lastName + " with licence number: " + licenseNumber + " has been added.");
+
+        System.out.println("Doctor: " + firstName + " " + lastName + " with license number: " + licenseNumber + " has been added.");
     }
 
     /**

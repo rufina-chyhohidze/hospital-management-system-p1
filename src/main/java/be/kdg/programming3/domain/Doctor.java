@@ -23,6 +23,34 @@ public class Doctor {
     private Set<Patient> patients; //relationship link to patients
 
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setLicenseNumber(int licenseNumber) {
+        this.licenseNumber = licenseNumber;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public void setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
+    }
+
     public Doctor(String firstName, String lastName, Department department, int licenseNumber, double salary, LocalDate hireDate, Gender gender) {
         this.firstName = firstName;
         this.lastName = lastName;

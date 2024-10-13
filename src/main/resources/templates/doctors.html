@@ -10,19 +10,30 @@
 </nav>
 <h1>All Doctors</h1>
 <table>
+    <thead>
     <tr>
         <th>First Name</th>
         <th>Last Name</th>
-        <th>Department</th>
         <th>License Number</th>
+        <th>Salary</th>
+        <th>Department</th>
+        <th>Hire Date</th>
+        <th>Gender</th>
     </tr>
-    <tr th:each="doctor: ${doctors}">
+    </thead>
+    <tbody>
+    <tr th:each="doctor : ${doctors}">
         <td th:text="${doctor.firstName}">First Name</td>
         <td th:text="${doctor.lastName}">Last Name</td>
+        <td th:text="${doctor.licenseNumber}">License Number</td>
+        <td th:text="${doctor.salary}">Salary</td>
         <td th:text="${doctor.department}">Department</td>
-        <td th:text="${doctors.licenseNumber}">License Number</td>
+        <td th:text="${doctor.hireDate}">Hire Date</td>
+        <td th:text="${doctor.gender}">Gender</td>
     </tr>
+    </tbody>
 </table>
 
+<a th:href="@{/}">Home</a> | <a th:href="@{/doctors/add}">Add Doctor</a>
 </body>
 </html>

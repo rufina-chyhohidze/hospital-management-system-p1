@@ -9,8 +9,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public interface DoctorRepository {
-    List<Doctor> findAll();
+    List<Doctor> getAllDoctors();
     List<Doctor> findByDepartment(Department department);
     Doctor findByLicenseNumber(int licenseNumber);
+   // void saveDoctor(Doctor doctor);
     void addDoctor(Doctor doctor);
 }
