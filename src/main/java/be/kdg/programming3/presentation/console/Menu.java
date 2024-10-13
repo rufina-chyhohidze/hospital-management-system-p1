@@ -1,4 +1,4 @@
-package be.kdg.programming3.presentation;
+package be.kdg.programming3.presentation.console;
 
 import be.kdg.programming3.domain.Department;
 import be.kdg.programming3.domain.Doctor;
@@ -15,8 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
-
-import static be.kdg.programming3.repository.DataFactory.doctors;
 
 @Component
 public class Menu {

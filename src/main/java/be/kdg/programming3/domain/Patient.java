@@ -136,6 +136,30 @@ public class Patient {
         return Objects.equals(patientId, patient.patientId);
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setBillingAmount(double billingAmount) {
+        this.billingAmount = billingAmount;
+    }
+
+    public void setAdmissionDate(LocalDate admissionDate) {
+        this.admissionDate = admissionDate;
+    }
+
+    public void setDoctors(Set<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
     /**
      * Overriding hashCode method based on patientId.
      *

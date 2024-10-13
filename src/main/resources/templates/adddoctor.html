@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Doctor</title>
+</head>
+<body>
+<nav>
+    <a href="/patients">All Patients</a> | <a href="/doctors">All Doctors</a> | <a href="/patients/add">Add Patient</a> | <a href="/doctors/add">Add Doctor</a>
+</nav>
+<h1>Add Doctor</h1>
+<form th:action="@{/doctors/add}" th:object="${doctor}" method="post">
+    <label for="firstName">First Name:</label>
+    <input type="text" th:field="*{firstName}" id="firstName" /><br/>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" th:field="*{lastName}" /><br/>
+
+    <label for="licenseNumber">License Number:</label>
+    <input type="text" th:field="*{licenseNumber}" id="licenseNumber" /><br/>
+
+    <label for="department">Department:</label>
+    <select th:field="*{department}" id="department">
+        <option th:each="dept : ${T(be.kdg.programming3.domain.Department).values()}"
+                th:value="${dept}"
+                th:text="${dept}"></option>
+    </select><br/>
+
+    <button type="submit">Add Doctor</button>
+</form>
+
+</body>
+</html>

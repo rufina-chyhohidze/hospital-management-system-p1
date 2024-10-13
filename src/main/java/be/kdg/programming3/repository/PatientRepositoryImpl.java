@@ -11,26 +11,25 @@ import java.util.Optional;
 public class PatientRepositoryImpl implements PatientRepository {
     private final List<Patient> patients = new ArrayList<>();
 
-    @Override
-    public void addPatient(Patient patient) {
-        patients.add(patient);
-    }
 
     @Override
-    public void updatePatient(Patient patient) {
-        removePatient(patient.getPatientId());
-        patients.add(patient);
-    }
-
-    @Override
-    public Optional<Patient> findById(String patientId) {
+    public Patient findPatientById(String patientId) {
         return patients.stream()
-                .filter(p -> p.getPatientId().equals(patientId))
-                .findFirst();
+                .filter(patient -> patient.getPatientId().equals(patientId))
+                .findFirst()
+                .orElse(null);
     }
 
+
     @Override
-    public List<Patient> findAll() {
+    public void savePatient(Patient patient) {
+        patients.add(patient);
+
+    }
+
+
+    @Override
+    public List<Patient> getAllPatients() {
         return new ArrayList<>(patients);
     }
 

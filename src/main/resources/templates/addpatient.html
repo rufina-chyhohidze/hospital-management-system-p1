@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Patient</title>
+</head>
+<body>
+<form th:action="@{/patients/add}" th:object="${patient}" method="post">
+    <label for="firstName">First Name: </label>
+    <input type="text" th:field="*{firstName}" id="firstName"/><br/>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" th:field="*{lastName}" id="lastName" /><br/>
+
+    <label for="age">Age:</label>
+    <input type="number" th:field="*{age}" id="age" /><br/>
+
+    <label for="admissionDate">Admission Date:</label>
+    <input type="date" th:field="*{admissionDate}" id="admissionDate" /><br/>
+
+    <button type="submit">Add Patient</button>
+
+</form>
+
+</body>
+</html>
