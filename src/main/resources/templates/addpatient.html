@@ -2,37 +2,74 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Patient</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+          th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{/static/style.css}" href="/static/style.css">
 </head>
 <body>
-<form th:action="@{/patients/add}" th:object="${patient}" method="post">
-    <label for="firstName">First Name: </label>
-    <input type="text" th:field="*{firstName}" id="firstName"/><br/>
 
-    <label for="lastName">Last Name:</label>
-    <input type="text" th:field="*{lastName}" id="lastName" /><br/>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-    <label for="patient_id">Patient ID(P0000):</label>
-    <input type="text" th:field="*{patientId}" id="patient_id" /><br/>
+<div class="container form-container mt-4">
+    <h1 class="mb-4">Add Patient</h1>
+    <form th:action="@{/patients/add}" th:object="${patient}" method="post" novalidate>
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name:</label>
+            <input type="text" th:field="*{firstName}" id="firstName" class="form-control" required />
+            <div class="invalid-feedback">First name is required.</div>
+        </div>
 
-    <label for="age">Age:</label>
-    <input type="number" th:field="*{age}" id="age" /><br/>
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name:</label>
+            <input type="text" th:field="*{lastName}" id="lastName" class="form-control" required />
+            <div class="invalid-feedback">Last name is required.</div>
+        </div>
 
-    <label for="gender">Gender:</label>
-    <select th:field="*{gender}" id="gender">
-        <option th:value="MALE">Male</option>
-        <option th:value="FEMALE">Female</option>
-    </select><br>
+        <div class="mb-3">
+            <label for="patient_id" class="form-label">Patient ID (P0000):</label>
+            <input type="text" th:field="*{patientId}" id="patient_id" class="form-control" required pattern="^P\d{4}$" />
+            <div class="invalid-feedback">Patient ID must follow the format P0000.</div>
+        </div>
 
-    <label for="admissionDate">Admission Date:</label>
-    <input type="date" th:field="*{admissionDate}" id="admissionDate" /><br/>
+        <div class="mb-3">
+            <label for="age" class="form-label">Age:</label>
+            <input type="number" th:field="*{age}" id="age" class="form-control" required min="0" />
+            <div class="invalid-feedback">Please enter a valid age.</div>
+        </div>
 
-    <label for="billing_amount">Billing amount:</label>
-    <input type="number" th:field="*{billingAmount}" id="billing_amount" /><br/>
+        <div class="mb-3">
+            <label for="gender" class="form-label">Gender:</label>
+            <select th:field="*{gender}" id="gender" class="form-select" required>
+                <option value="">Select Gender</option>
+                <option th:value="MALE">Male</option>
+                <option th:value="FEMALE">Female</option>
+            </select>
+            <div class="invalid-feedback">Please select a gender.</div>
+        </div>
 
-    <button type="submit">Add Patient</button>
+        <div class="mb-3">
+            <label for="admissionDate" class="form-label">Admission Date:</label>
+            <input type="date" th:field="*{admissionDate}" id="admissionDate" class="form-control" required />
+            <div class="invalid-feedback">Admission date is required.</div>
+        </div>
 
-</form>
+        <div class="mb-3">
+            <label for="billing_amount" class="form-label">Billing Amount:</label>
+            <input type="number" th:field="*{billingAmount}" id="billing_amount" class="form-control" required min="0" />
+            <div class="invalid-feedback">Billing amount is required.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Patient</button>
+    </form>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+
 
 </body>
 </html>
