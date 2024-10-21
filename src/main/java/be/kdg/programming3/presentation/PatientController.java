@@ -22,6 +22,7 @@ public class PatientController {
         this.patientService = patientService;
     }
 
+
     @GetMapping
     public String getAllPatients(Model model) {
         logger.info("Fetching all patients...");
@@ -52,4 +53,5 @@ public class PatientController {
         patientService.addPatient(patient);
         return "redirect:/patients";
     }
+
 }
