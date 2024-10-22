@@ -7,10 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -36,10 +33,21 @@ public class DoctorController {
         model.addAttribute("doctor", new Doctor());
         return "adddoctor"; //
     }
+    @GetMapping("/{licenseNumber}")
+    public String getDoctorDetails(@PathVariable int licenseNumber, Model model) {
+        Doctor doctor = doctorService.findDoctorByLicenseNumber(licenseNumber);
+        if (doctor != null) {
+            model.addAttribute("doctor",doctor);
+            return "doctorDetails";
+        }
+        return "redirect:/doctors";
+    }
+
     @PostMapping("/add")
     public String addDoctor(@ModelAttribute("doctor") Doctor doctor){
         logger.info("Adding new doctor...{}", doctor);
         doctorService.addDoctor(doctor);
         return "redirect:/doctors";
     }
+
 }
