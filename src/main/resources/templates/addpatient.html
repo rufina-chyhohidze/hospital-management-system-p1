@@ -9,14 +9,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
           th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}">
     <link rel="stylesheet" th:href="@{/static/style.css}" href="/static/style.css">
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container form-container mt-4">
+<div class="container mt-4 form-container">
     <h1 class="mb-4">Add Patient</h1>
-    <form th:action="@{/patients/add}" th:object="${patient}" method="post" novalidate>
+    <form th:action="@{/patients/add}" th:object="${patient}" method="post" class="needs-validation" novalidate>
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name:</label>
             <input type="text" th:field="*{firstName}" id="firstName" class="form-control" required />
@@ -31,7 +33,7 @@
 
         <div class="mb-3">
             <label for="patient_id" class="form-label">Patient ID (P0000):</label>
-            <input type="text" th:field="*{patientId}" id="patient_id" class="form-control" required pattern="^P\d{4}$" />
+            <input type="text" th:field="*{patientId}" id="patient_id" class="form-control" required pattern="^[P]{1}[0-9]{4}$" />
             <div class="invalid-feedback">Patient ID must follow the format P0000.</div>
         </div>
 
@@ -69,7 +71,24 @@
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 
+<!-- validation for fields -->
+<script>
+    (function () {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
 
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
 
 </body>
 </html>

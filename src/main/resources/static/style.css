@@ -13,7 +13,8 @@ body {
     margin: 50px auto;
 }
 h1 {
-    color: #2d7d9a; /* Darker shade for headings */
+    color:cadetblue;
+    text-shadow: #0000cc 0 0 1px/* Darker shade for headings */
 }
 .btn-primary {
     background-color: #a0d68b; /* Light green button */
