@@ -18,53 +18,60 @@
 
 <div class="container mt-4 form-container">
     <h1 class="mb-4">Add Doctor</h1>
-    <form th:action="@{/doctors/add}" th:object="${doctor}" method="post" class="needs-validation" novalidate>
+    <form th:action="@{/doctors/add}" th:object="${doctorForm}" method="post" class="needs-validation" novalidate>
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name:</label>
             <input type="text" th:field="*{firstName}" id="firstName" class="form-control" required />
+            <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
             <div class="invalid-feedback">First name is required.</div>
         </div>
 
         <div class="mb-3">
             <label for="lastName" class="form-label">Last Name:</label>
             <input type="text" th:field="*{lastName}" id="lastName" class="form-control" required />
+            <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
             <div class="invalid-feedback">Last name is required.</div>
         </div>
 
         <div class="mb-3">
             <label for="licenseNumber" class="form-label">License Number:</label>
             <input type="text" th:field="*{licenseNumber}" id="licenseNumber" class="form-control" required />
+            <div th:if="${#fields.hasErrors('licenseNumber')}" th:errors="*{licenseNumber}"></div>
             <div class="invalid-feedback">License number is required.</div>
         </div>
 
         <div class="mb-3">
             <label for="salary" class="form-label">Salary:</label>
             <input type="number" th:field="*{salary}" id="salary" class="form-control" required min="0" />
+            <div th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></div>
             <div class="invalid-feedback">Salary is required and must be a positive value.</div>
         </div>
 
         <div class="mb-3">
-            <label for="department" class="form-label">Department:</label>
+            <label for="department" class="form-label">Gender:</label>
             <select th:field="*{department}" id="department" class="form-select" required>
-                <option value="">Select Department</option>
-                <option th:each="dept : ${T(be.kdg.programming3.domain.Department).values()}"
-                        th:value="${dept}" th:text="${dept}"></option>
+                <option value="" disabled selected>Select Department</option>
+                <option th:each="g : ${T(be.kdg.programming3.domain.Department).values()}"
+                        th:value="${g}" th:text="${g.name()}">
+                </option>
             </select>
-            <div class="invalid-feedback">Please select a department.</div>
+            <div class="invalid-feedback">Please select a gender.</div>
         </div>
 
         <div class="mb-3">
             <label for="hireDate" class="form-label">Hire Date:</label>
             <input type="date" th:field="*{hireDate}" id="hireDate" class="form-control" required />
+            <div th:if="${#fields.hasErrors('hireDate')}" th:errors="*{hireDate}"></div>
             <div class="invalid-feedback">Hire date is required.</div>
         </div>
 
         <div class="mb-3">
             <label for="gender" class="form-label">Gender:</label>
             <select th:field="*{gender}" id="gender" class="form-select" required>
-                <option value="">Select Gender</option>
-                <option th:value="MALE">Male</option>
-                <option th:value="FEMALE">Female</option>
+                <option value="" disabled selected>Select Gender</option>
+                <option th:each="g : ${T(be.kdg.programming3.domain.Gender).values()}"
+                        th:value="${g}" th:text="${g.name()}">
+                </option>
             </select>
             <div class="invalid-feedback">Please select a gender.</div>
         </div>

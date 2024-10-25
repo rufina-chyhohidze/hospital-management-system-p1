@@ -92,7 +92,7 @@ public class PatientForm {
 
     @Override
     public String toString() {
-        return "PatientForm{" +
+        return "Patient's data: {" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", patientId='" + patientId + '\'' +
