@@ -13,32 +13,26 @@
     <link rel="stylesheet" th:href="@{/static/style.css}" href="/static/style.css">
 </head>
 <body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container mt-5">
-    <h2>Session History</h2>
-    <div th:if="${visitHistory != null && !visitHistory.isEmpty()}">
-        <table class="table table-bordered table-hover">
-            <thead class="table-dark">
-            <tr>
-                <th>#</th>
-                <th>Page URL</th>
-                <th>Timestamp</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="entry, iterStat : ${visitHistory}">
-                <td th:text="${iterStat.index + 1}">1</td>
-                <td th:text="${entry.split(' at ')[0]}">Visited Page URL</td>
-                <td th:text="${entry.split(' at ')[1]}">Timestamp</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div th:if="${visitHistory == null || visitHistory.isEmpty()}">
-        <p class="alert alert-info">No visit history found.</p>
-    </div>
+    <h1 class="mb-4">Session History</h1>
+
+    <table class="table table-striped table-hover" id="session-history-table">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Page Visited</th>
+            <th scope="col">Timestamp</th>
+        </tr>
+        </thead>
+        <tbody id="session-history-body">
+        <tr th:each="entry, iterStat : ${visitHistory}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${entry['page']}"></td>
+            <td th:text="${entry['timestamp']}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-
-<script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.bundle.min.js}"></script>
-
 </body>
 </html>
