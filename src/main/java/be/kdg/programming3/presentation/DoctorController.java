@@ -6,6 +6,7 @@ import be.kdg.programming3.domain.Gender;
 import be.kdg.programming3.domain.Patient;
 import be.kdg.programming3.presentation.viewmodels.DoctorForm;
 import be.kdg.programming3.service.DoctorService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 @Controller
@@ -27,21 +32,24 @@ public class DoctorController {
         this.doctorService = doctorService;
     }
     @GetMapping
-    public String getAllDoctors(Model model){
+    public String getAllDoctors(Model model, HttpSession session) {
         logger.info("Fetching all doctors...");
+        logVisit(session,"Visited All Doctors page");
         model.addAttribute("doctors", doctorService.getAllDoctors());
         return "doctors";
     }
 
     @GetMapping("/add")
-    public String showAddDoctorForm(Model model) {
+    public String showAddDoctorForm(Model model, HttpSession session) {
         logger.info("Processing doctor's form...");
+        logVisit(session,"Visited Doctor's Form");
         model.addAttribute("doctorForm", new DoctorForm());
         return "adddoctor"; //
     }
     @GetMapping("/{licenseNumber}")
-    public String getDoctorDetails(@PathVariable int licenseNumber, Model model) {
+    public String getDoctorDetails(@PathVariable int licenseNumber, Model model, HttpSession session) {
         Doctor doctor = doctorService.findDoctorByLicenseNumber(licenseNumber);
+        logVisit(session,"Visited Doctor Details for doctor: "+licenseNumber);
         if (doctor != null) {
             model.addAttribute("doctor",doctor);
             return "doctorDetails";
@@ -50,7 +58,7 @@ public class DoctorController {
     }
 
     @PostMapping("/add")
-    public String addDoctor(@ModelAttribute("doctorForm")@Valid DoctorForm doctorForm, BindingResult bindingResult, Model model){
+    public String addDoctor(@ModelAttribute("doctorForm")@Valid DoctorForm doctorForm, BindingResult bindingResult, Model model,HttpSession session) {
         if(bindingResult.hasErrors()) {
             logger.warn("Validation errors: {}", bindingResult.getAllErrors());
             return "adddoctor"; //it returns to the form if validation fails
@@ -66,8 +74,21 @@ public class DoctorController {
         doctor.setGender(Gender.valueOf(doctorForm.getGender().toUpperCase()));;
 
         doctorService.addDoctor(doctor);
-        logger.info("Successfully added a new patient: {}", doctorForm.toString());
+        logger.info("Successfully added a new doctor: {}", doctorForm.toString());
+        logVisit(session,"Doctor addition session...");
         return "redirect:/doctors";
+    }
+
+    public void logVisit(HttpSession session, String pageName) {
+        List<Map<String, String>> visitHistory = (List<Map<String, String>>) session.getAttribute("visitHistory");
+        if (visitHistory == null) {
+            visitHistory = new ArrayList<>();
+            session.setAttribute("visitHistory", visitHistory);
+        }
+        Map<String, String> visitEntry = new HashMap<>();
+        visitEntry.put("page", pageName);
+        visitEntry.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        visitHistory.add(visitEntry);
     }
 
 }

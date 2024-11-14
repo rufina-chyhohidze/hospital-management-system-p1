@@ -14,9 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/patients")
@@ -33,7 +33,7 @@ public class PatientController {
     @GetMapping
     public String getAllPatients(Model model, HttpSession session) {
         logger.info("Fetching all patients...");
-        trackPageVisit(session,"/patients");
+       logVisit(session,"/patients");
         List<Patient> patients = patientService.getAllPatients();
         model.addAttribute("patients", patients);
         return "patients"; // returns the view called patients.html
@@ -42,14 +42,14 @@ public class PatientController {
     public String addPatientForm(Model model,HttpSession session) {
         model.addAttribute("patientForm", new PatientForm());
         logger.info("Processing patient's form...");
-        trackPageVisit(session,"/patients/add");
+        logVisit(session,"/patients/add");
         return "addpatient"; // returns the form to add a patient
     }
 
     @GetMapping("/{patientId}")
     public String getPatientDetails(@PathVariable String patientId, Model model,HttpSession session) {
         Patient patient = patientService.findPatientById(patientId);
-        trackPageVisit(session,"/patients/"+patientId);
+        logVisit(session,"/patients/"+patientId);
         if (patient != null) {
             model.addAttribute("patient", patient);
             return "patientDetails";
@@ -76,35 +76,19 @@ public class PatientController {
 
         patientService.addPatient(patient);
         logger.info("Successfully added a new patient: {}", patientForm.toString());
-        trackPageVisit(session,"/patients/add (submission)");
+        logVisit(session,"/patients/add (submission)");
         return "redirect:/patients";
     }
-    private void trackPageVisit(HttpSession session, String pageUrl) {
-        List<String> visitHistory = (List<String>) session.getAttribute("visitHistory");
+    public void logVisit(HttpSession session, String pageName) {
+        List<Map<String, String>> visitHistory = (List<Map<String, String>>) session.getAttribute("visitHistory");
         if (visitHistory == null) {
-            logger.debug("Initializing new session visit history");
-            visitHistory = new LinkedList<>();
+            visitHistory = new ArrayList<>();
+            session.setAttribute("visitHistory", visitHistory);
         }
-
-        String visitEntry = "Visited: " + pageUrl + " at " + LocalDateTime.now();
+        Map<String, String> visitEntry = new HashMap<>();
+        visitEntry.put("page", pageName);
+        visitEntry.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         visitHistory.add(visitEntry);
-        session.setAttribute("visitHistory", visitHistory);
-        logger.debug("Page visit tracked: {}", visitEntry);
-    }
-
-    @GetMapping("/session-history")
-    public String showSessionHistory(HttpSession session, Model model) {
-        logger.info("Accessed session history page");
-
-        List<String> visitHistory = (List<String>) session.getAttribute("visitHistory");
-        if (visitHistory == null) {
-            logger.debug("No visit history found in session, initializing empty list");
-            visitHistory = new LinkedList<>();
-        }
-
-        model.addAttribute("visitHistory", visitHistory);
-        logger.debug("Session history loaded with {} entries", visitHistory.size());
-        return "session-history"; // returns the session-history.html view
     }
 //
 }
