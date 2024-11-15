@@ -7,6 +7,7 @@ import be.kdg.programming3.presentation.PatientController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
+@Profile("new")
 public class DoctorRepositoryImpl implements DoctorRepository {
     private static final Logger logger = LoggerFactory.getLogger(DoctorRepositoryImpl.class);
     private final JdbcTemplate jdbcTemplate;
