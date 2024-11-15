@@ -48,14 +48,14 @@
         </div>
 
         <div class="mb-3">
-            <label for="department" class="form-label">Gender:</label>
+            <label for="department" class="form-label">Department:</label>
             <select th:field="*{department}" id="department" class="form-select" required>
                 <option value="" disabled selected>Select Department</option>
                 <option th:each="g : ${T(be.kdg.programming3.domain.Department).values()}"
                         th:value="${g}" th:text="${g.name()}">
                 </option>
             </select>
-            <div class="invalid-feedback">Please select a gender.</div>
+            <div class="invalid-feedback">Please select a department.</div>
         </div>
 
         <div class="mb-3">

@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS PATIENTS;
 DROP TABLE IF EXISTS DOCTORS;
 
-DROP TABLE IF EXISTS PATIENTS;
+
 CREATE TABLE PATIENTS (
                           patient_id VARCHAR(50) PRIMARY KEY,
                           first_name VARCHAR(50),
@@ -12,7 +12,7 @@ CREATE TABLE PATIENTS (
                           billing_amount DOUBLE
 );
 
-DROP TABLE IF EXISTS DOCTORS;
+
 CREATE TABLE DOCTORS (
                          license_number INT PRIMARY KEY,
                          first_name VARCHAR(50),

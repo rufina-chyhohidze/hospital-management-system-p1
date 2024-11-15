@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class DoctorServiceImpl implements DoctorService {
     private Logger logger = LoggerFactory.getLogger(DoctorServiceImpl.class);
 
-    @Autowired
+
     private final DoctorRepository doctorRepository;
 
     @Autowired
