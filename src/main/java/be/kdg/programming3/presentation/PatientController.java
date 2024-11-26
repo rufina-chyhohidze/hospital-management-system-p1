@@ -1,8 +1,10 @@
 package be.kdg.programming3.presentation;
 
+import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Gender;
 import be.kdg.programming3.domain.Patient;
 import be.kdg.programming3.presentation.viewmodels.PatientForm;
+import be.kdg.programming3.service.DoctorService;
 import be.kdg.programming3.service.PatientService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -23,12 +25,13 @@ import java.util.*;
 public class PatientController {
     private static final Logger logger = LoggerFactory.getLogger(PatientController.class);
     private final PatientService patientService;
+    private final DoctorService doctorService;
 
     @Autowired
-    public PatientController(PatientService patientService) {
+    public PatientController(PatientService patientService,DoctorService doctorService) {
         this.patientService = patientService;
+        this.doctorService = doctorService;
     }
-
 
     @GetMapping
     public String getAllPatients(Model model, HttpSession session) {
@@ -49,36 +52,65 @@ public class PatientController {
     @GetMapping("/{patientId}")
     public String getPatientDetails(@PathVariable String patientId, Model model,HttpSession session) {
         Patient patient = patientService.findPatientById(patientId);
-        logVisit(session,"/patients/"+patientId);
-        if (patient != null) {
-            model.addAttribute("patient", patient);
-            return "patientDetails";
-        }
+        List<Doctor> doctors = doctorService.getAllDoctors(); // Get all doctors for dropdown
+        List<Doctor> assignedDoctors = patientService.getDoctorsForPatient(patientId);
+
+        logger.debug(assignedDoctors.toString());
+        model.addAttribute("patient", patient);
+        model.addAttribute("allDoctors", doctors);
+        model.addAttribute("assignedDoctors", assignedDoctors);
+        return "patientDetails";
+    }
+
+    @RequestMapping("/delete/{patientId}")
+    public String deletePatient(@PathVariable String patientId) {
+        patientService.removePatient(patientId);
         return "redirect:/patients";
     }
 
     @PostMapping("/add")
-    public String addPatient(@ModelAttribute("patientForm")@Valid PatientForm patientForm, BindingResult bindingResult, Model model,HttpSession session) {
-        if(bindingResult.hasErrors()) {
-            logger.warn("Validation errors: {}", bindingResult.getAllErrors());
-            return "addpatient"; //it returns to the form if validation fails
+    public String addPatient(@ModelAttribute("patientForm") @Valid PatientForm patientForm,
+                             BindingResult bindingResult,
+                             Model model,
+                             HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            logger.warn("Validation errors occurred: {}", bindingResult.getAllErrors());
+            // Fetch doctors again in case of form errors
+            List<Doctor> doctors = doctorService.getAllDoctors();
+            model.addAttribute("doctors", doctors);
+            return "addpatient";
         }
-        // Convert PatientForm to Patient entity and add to service
+
+        // Convert PatientForm to Patient entity
         Patient patient = new Patient();
+        patient.setPatientId(patientForm.getPatientId());
         patient.setFirstName(patientForm.getFirstName());
         patient.setLastName(patientForm.getLastName());
         patient.setAge(patientForm.getAge());
-        patient.setPatientId(patientForm.getPatientId());
-        // Convert gender String to Gender enum using Gender.valueOf
         patient.setGender(Gender.valueOf(patientForm.getGender().toUpperCase()));
         patient.setAdmissionDate(patientForm.getAdmissionDate());
         patient.setBillingAmount(patientForm.getBillingAmount());
 
+        // Assign patient to a doctor
+        if (patientForm.getDoctorId() != null) {
+            Doctor assignedDoctor = doctorService.findDoctorByLicenseNumber(patientForm.getDoctorId());
+            if (assignedDoctor != null) {
+                patient.getDoctors().add(assignedDoctor);
+            }
+        }
+
         patientService.addPatient(patient);
-        logger.info("Successfully added a new patient: {}", patientForm.toString());
-        logVisit(session,"/patients/add (submission)");
+        logger.info("Patient added successfully: {}", patient);
+        logVisit(session, "Added Patient with ID: " + patientForm.getPatientId());
         return "redirect:/patients";
     }
+
+    @PostMapping("/{patientId}/assign-doctor")
+    public String assignDoctorToPatient(@PathVariable String patientId, @RequestParam int doctorId) {
+        patientService.assignDoctorToPatient(patientId, doctorId);
+        return "redirect:/patients/" + patientId;
+    }
+
     public void logVisit(HttpSession session, String pageName) {
         List<Map<String, String>> visitHistory = (List<Map<String, String>>) session.getAttribute("visitHistory");
         if (visitHistory == null) {
@@ -90,5 +122,4 @@ public class PatientController {
         visitEntry.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         visitHistory.add(visitEntry);
     }
-//
 }

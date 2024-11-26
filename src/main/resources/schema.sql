@@ -20,7 +20,15 @@ CREATE TABLE DOCTORS (
                          department VARCHAR(50),
                          salary DOUBLE,
                          hire_date DATE,
-                         gender VARCHAR(10),
-                         hospital_name VARCHAR2(100)
+                         gender    VARCHAR(10)
+);
 
+DROP TABLE IF EXISTS doctor_patient CASCADE;
+
+CREATE TABLE doctor_patient (
+                                doctor_id INT,
+                                patient_id VARCHAR(50),
+                                PRIMARY KEY (doctor_id, patient_id),
+                                FOREIGN KEY (doctor_id) REFERENCES doctors(license_number) ON DELETE CASCADE,
+                                FOREIGN KEY (patient_id) REFERENCES patients(patient_id) ON DELETE CASCADE
 );

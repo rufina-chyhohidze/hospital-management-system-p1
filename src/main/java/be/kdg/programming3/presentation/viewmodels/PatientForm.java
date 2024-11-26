@@ -27,6 +27,16 @@ public class PatientForm {
     private LocalDate admissionDate;
     @NotNull
     private double billingAmount;
+    private Integer doctorId;
+    // Getters and Setters
+
+    public Integer getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
+    }
 
 
     public PatientForm() {
@@ -89,6 +99,7 @@ public class PatientForm {
     public void setBillingAmount(double billingAmount) {
         this.billingAmount = billingAmount;
     }
+
 
     @Override
     public String toString() {

@@ -14,4 +14,7 @@ public interface DoctorRepository {
     Doctor findByLicenseNumber(int licenseNumber);
    // void saveDoctor(Doctor doctor);
     void addDoctor(Doctor doctor);
+    void deleteDoctor(int licenseNumber);
+    List<Doctor> getDoctorsForPatient(String patientId);
+    void assignPatientToDoctor(int doctorId, String patientId);
 }

@@ -42,4 +42,19 @@ public class OldDoctorRepositoryImpl implements DoctorRepository {
         doctorList.add(doctor);
     }
 
+    @Override
+    public void deleteDoctor(int licenseNumber) {
+
+    }
+
+    @Override
+    public List<Doctor> getDoctorsForPatient(String patientId) {
+        return List.of();
+    }
+
+    @Override
+    public void assignPatientToDoctor(int doctorId, String patientId) {
+
+    }
+
 }

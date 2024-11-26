@@ -1,7 +1,9 @@
 package be.kdg.programming3.service;
 
+import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Patient;
 import be.kdg.programming3.repository.DataFactory;
+import be.kdg.programming3.repository.DoctorRepository;
 import be.kdg.programming3.repository.PatientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class PatientServiceImpl implements PatientService {
     private Logger logger = LoggerFactory.getLogger(PatientServiceImpl.class);
-    @Autowired
+
     private PatientRepository patientRepository;
 
     public PatientServiceImpl(PatientRepository patientRepository) {
@@ -58,5 +60,19 @@ public class PatientServiceImpl implements PatientService {
     public void removePatient(String patientId) {
         logger.info("Removing patient {}...", patientId);
         patientRepository.removePatient(patientId);
+    }
+    @Override
+    public void assignDoctorToPatient(String patientId, int doctorId) {
+        patientRepository.assignDoctorToPatient(patientId, doctorId);
+    }
+    @Override
+    public List<Patient> getPatientsForDoctor(int doctorId) {
+        return patientRepository.getPatientsForDoctor(doctorId);
+    }
+    public List<Doctor> getDoctorsForPatient(String patientId) {
+
+        List<Doctor> listDoc =  patientRepository.getDoctorsForPatient(patientId);
+        logger.debug(listDoc.toString());
+        return listDoc;
     }
 }

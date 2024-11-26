@@ -26,6 +26,11 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
+    public void removeDoctor(int licenseNumber) {
+        doctorRepository.deleteDoctor(licenseNumber);
+    }
+
+    @Override
     public List<Doctor> getAllDoctors() {
         return doctorRepository.getAllDoctors();
     }
@@ -43,5 +48,13 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void addDoctor(Doctor doctor) {
         doctorRepository.addDoctor(doctor);
+    }
+    @Override
+    public List<Doctor> getDoctorsForPatient(String patientId) {
+        return doctorRepository.getDoctorsForPatient(patientId);
+    }
+    @Override
+    public void assignPatientToDoctor(int doctorId, String patientId) {
+        doctorRepository.assignPatientToDoctor(doctorId, patientId);
     }
 }

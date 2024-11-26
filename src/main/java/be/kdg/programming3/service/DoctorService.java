@@ -13,4 +13,7 @@ public interface DoctorService {
     Doctor findDoctorByLicenseNumber(int licenseNumber);
 
     void addDoctor(Doctor doctor);
+    void removeDoctor(int licenseNumber);
+    List<Doctor> getDoctorsForPatient(String patientId);
+    void assignPatientToDoctor(int doctorId, String patientId);
 }

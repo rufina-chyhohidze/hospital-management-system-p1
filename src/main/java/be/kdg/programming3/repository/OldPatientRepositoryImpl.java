@@ -1,5 +1,6 @@
 package be.kdg.programming3.repository;
 
+import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,21 @@ public class OldPatientRepositoryImpl implements PatientRepository {
     public void removePatient(String patientId) {
         logger.info("Removing patient {}", patientId);
         patients.removeIf(patient -> patient.getPatientId().equals(patientId));
+    }
+
+    @Override
+    public void assignDoctorToPatient(String patientId, int doctorId) {
+
+    }
+
+    @Override
+    public List<Patient> getPatientsForDoctor(int doctorId) {
+        return List.of();
+    }
+
+    @Override
+    public List<Doctor> getDoctorsForPatient(String patientId) {
+        return List.of();
     }
 
 }
