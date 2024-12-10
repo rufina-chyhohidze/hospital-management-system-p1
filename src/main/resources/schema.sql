@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS PATIENTS CASCADE ;
+/*DROP TABLE IF EXISTS PATIENTS CASCADE ;
 DROP TABLE IF EXISTS DOCTORS CASCADE ;
 
 
@@ -32,3 +32,5 @@ CREATE TABLE doctor_patient (
                                 FOREIGN KEY (doctor_id) REFERENCES doctors(license_number) ON DELETE CASCADE,
                                 FOREIGN KEY (patient_id) REFERENCES patients(patient_id) ON DELETE CASCADE
 );
+
+ */

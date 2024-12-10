@@ -1,5 +1,7 @@
 package be.kdg.programming3.domain;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
@@ -9,17 +11,37 @@ import java.util.Set;
  * Patient (Many-to-Many with Doctor)
  * A Patient can have many Doctors assigned. Each Doctor can have many Patients.
  */
+@Entity
+@Table(name = "patients")
 public class Patient {
+    @Id
+    @Column(name = "patient_id", unique = true, nullable = false)
+    private String patientId; // Patient's unique identifier (primary key)
+
     private String firstName;
     private String lastName;
     private int age;
-    private Gender gender;
-    private String patientId;
-    private double billingAmount;
-    private LocalDate admissionDate;
-    private Set<Doctor> doctors; //relationship link to doctors that shows many to many r.
 
-    public Patient(String firstName, String lastName, int age, Gender gender, String patientId, double billingAmount, LocalDate admissionDate) {
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    private double billingAmount;
+
+    private LocalDate admissionDate;
+
+    // Many-to-Many relationship with Doctor
+    @ManyToMany(mappedBy = "patients", cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH, CascadeType.MERGE})
+
+//    , referencedColumnName = "patient_id"
+//    , referencedColumnName = "license_number"
+    private Set<Doctor> doctors = new HashSet<>();
+
+    // Many-to-One relationship with Hospital
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hospital_id", nullable = true) // Nullable hospital association
+    private Hospital hospital;
+
+    public Patient(String firstName, String lastName, int age, Gender gender, String patientId, double billingAmount, LocalDate admissionDate,Hospital hospital) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -28,14 +50,29 @@ public class Patient {
         this.billingAmount = billingAmount;
         this.admissionDate = admissionDate;
         this.doctors = new HashSet<>();
+        this.hospital = hospital;
+    }
+
+    public Patient(){
+
+    }
+
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
     }
 
     /**
      * Default Constructor
      */
-    public Patient() {
-        this.doctors = new HashSet<>();
-    }
+
 
     // Getters and Setters
     public String getFirstName() {
@@ -61,6 +98,10 @@ public class Patient {
     public String getPatientId() {
         return patientId;
     }
+
+//    public Long getId() {
+      //  return id;
+//    }
 
     public double getBillingAmount() {
         return billingAmount;

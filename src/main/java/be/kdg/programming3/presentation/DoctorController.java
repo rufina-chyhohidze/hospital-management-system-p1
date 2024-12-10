@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,8 +31,13 @@ public class DoctorController {
     private final DoctorService doctorService;
     private final PatientService patientService;
 
+    /**
+     *
+     * @param doctorService - qualifier can be removed, to use doctorServiceImpl(h2)
+     * @param patientService - now qualifier is used for postgres implementation
+     */
     @Autowired
-    public DoctorController(DoctorService doctorService,PatientService patientService) {
+    public DoctorController(@Qualifier("doctorServiceImplPostgres") DoctorService doctorService, @Qualifier("patientServiceImplPostgres") PatientService patientService) {
         this.doctorService = doctorService;
         this.patientService = patientService;
     }

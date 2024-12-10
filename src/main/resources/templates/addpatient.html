@@ -43,7 +43,7 @@
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-6 flex-column d-flex">
                             <label class="form-control-label px-3" for="patient_id">Patient ID (P0000)<span class="text-danger"> *</span></label>
-                            <input type="text" th:field="*{patientId}" id="patient_id" class="form-control" placeholder="Enter patient ID" required pattern="^[P]{1}[0-9]{4}$" />
+                            <input type="text" th:field="*{patientId}" id="patient_id" class="form-control" placeholder="Enter patient ID" required pattern="^{1}[0-9]{4}$" />
                             <div th:if="${#fields.hasErrors('patientId')}" th:errors="*{patientId}"></div>
                             <div class="invalid-feedback">Patient ID must follow the format P0000.</div>
                         </div>

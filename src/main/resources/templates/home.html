@@ -13,7 +13,7 @@
     <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.js}"
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="/static/home.css">
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
@@ -27,25 +27,17 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active custom-carousel-item">
-                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fheal-responsibly.com%2Fwp-content%2Fuploads%2F2020%2F08%2F33f72-adobestock_224173795.jpeg&f=1&nofb=1&ipt=47778c6d6e225d4b6efeab6fe4f7e6e2411d930705071972221eaf14f7b35c26&ipo=images" class="d-block w-100 custom-image"
-                     alt="...">
-                <div class="carousel-caption d-md-block">
-                    <h1>Hospital Management System</h1>
-                    <a href="#book" class="btn btn-light mt-2" >Have a feedback?</a>
-                </div>
+                <img src="../static/images/d2.jpg" class="d-block w-100 custom-image" alt="Hospital">
+                    <div class="carousel-caption d-flex flex-column align-items-center">
+                        <h1 class="fw-bold">Hospital Management System</h1>
+                        <a href="#book" class="btn btn-light mt-2 shadow">Have Feedback?</a>
+                    </div>
             </div>
-            <div class="carousel-item  custom-carousel-item">
-                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.cmapmd.com%2Fwp-content%2Fuploads%2F2016%2F02%2F22308999_l.jpg&f=1&nofb=1&ipt=432bbbb0c010c4f2da8fd837fbbb0a1c1a70b7e008998f0f1a4ba919532654ae&ipo=images"
-                     class="d-block w-100 custom-image" alt="...">
+            <!-- Slide 2 -->
+            <div class="carousel-item custom-carousel-item">
+                <img src="../static/images/d3.jpg" class="custom-image" alt="d3"/>
                 <div class="carousel-caption d-md-block">
-
-                </div>
-            </div>
-            <div class="carousel-item  custom-carousel-item">
-                <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.insightpss.com.au%2Fwp-content%2Fuploads%2F2015%2F08%2FHappy-Doctors.jpg&f=1&nofb=1&ipt=2f55f03c0f1b1c177d4d1395413eaa3368c288750d0d70d6519ce0da5e6af4ce&ipo=images"
-                     class="d-block w-100 custom-image" alt="...">
-                <div class="carousel-caption d-md-block">
-                    <h1>Your health in our hands!</h1>
+                    <h1 class="fw-bold">Your Health, Our Mission</h1>
                 </div>
             </div>
         </div>
@@ -58,60 +50,62 @@
             <span class="visually-hidden">Next</span>
         </button>
     </section>
-    <section id="dogs" class="mx-4 my-4">
-        <h2 class="text-center">Overview of our departments</h2>
-        <div class="row">
-            <div class="col-lg-2 col-md-3 col-sm-4">
-                <div class="card">
-                    <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fphoenixmed.arizona.edu%2Fsites%2Fdefault%2Ffiles%2Fimages%2Fbanners%2Fneurology-banner.jpg&f=1&nofb=1&ipt=d8deb910bba16377472c7d0dd8210db82ea4f07fdb9b26d76929ee161a1c6467&ipo=images" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text"><strong>Neurology.</strong> Our most modern department with professionals from all over the world.  </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-4">
-                <div class="card">
-                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.ajhospital.in%2Fstorage%2Ffiles%2FDept%2Fcardiology.jpg&f=1&nofb=1&ipt=87ac17bbb166824b8ae8e11d0c66383d511cbb31b5210691aa65756a8e8d9c6b&ipo=images" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text"> <strong>Cardiology.</strong> We can ensure you, that your heart is going to be in right hands! </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-4">
-                <div class="card">
-                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.ncl.ac.uk%2Fmediav8%2Fdental%2Fimages%2Fdental-homepage-hero.jpg&f=1&nofb=1&ipt=e1ac4cbcecd2ce8c6597dbfe11985973c67987b0f2b6146e34ac9f25970e10f4&ipo=images" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text"><strong>Dentistry.</strong>Your smile will make world even better, after visiting our doctors! </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-4">
-                <div class="card">
-                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstorage.googleapis.com%2Ftreatspace-prod-media%2Fpracimg%2Fu-564%2Fimage_IG6hkZD.jpeg&f=1&nofb=1&ipt=4dd42dbba7b2e0188250334a9687ea0e0cb327f9112106d87569747dba41e852&ipo=images" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text"><strong>Pediatrics.</strong>Your kids will be happy to be treated here. </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-4">
-                <div class="card">
-                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcollege.mayo.edu%2Fmedia%2Fmccms%2Fcontent-assets%2Facademics%2Fresidencies-and-fellowships%2Fdiagnostic-radiology-residency-minnesota%2Fdepartment-and-faculty%2Fdiag-radiol-residency-mn-faculty.jpg&f=1&nofb=1&ipt=0a192236cdab742df81aba40385f06d6c9f3449c8da7c21d99a990c76903b7dd&ipo=images" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text"><strong>Radiology.</strong>Let's take a nice picture of your internal world! </p>
-                    </div>
-                </div>
-            </div>
+</main>
 
-            <div class="col-lg-2 col-md-3 col-sm-4">
-                <div class="card">
-                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.mayoclinic.org%2F-%2Fmedia%2Fkcms%2Fgbs%2Fpatient-consumer%2Fimages%2F2019%2F12%2F11%2F17%2F19%2Fsurgery-3113314-0117-8col.jpg&f=1&nofb=1&ipt=f6b96be02a72c0fe2cc8e0086a7bb53b4eb9ad59ea5bc5e3fbbd0257460413b5&ipo=images" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text"><strong>Surgery.</strong>Let's take a nice picture of your internal world! </p>
-                    </div>
+    <!-- DEPARTMENT GRID -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4 fw-bold">Overview of our Departments</h2>
+        <div class="row g-3 text-center">
+            <!-- Neurology -->
+            <div class="col-md-4 col-sm-6">
+                <div class="hover-effect">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fphoenixmed.arizona.edu%2Fsites%2Fdefault%2Ffiles%2Fimages%2Fbanners%2Fneurology-banner.jpg&f=1&nofb=1" class="img-fluid rounded shadow department-img" alt="Neurology">
                 </div>
+                <p class="mt-2 fw-bold">Neurology</p>
+                <p>Our most modern department with professionals from all over the world.</p>
+            </div>
+            <!-- Cardiology -->
+            <div class="col-md-4 col-sm-6">
+                <div class="hover-effect">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.ajhospital.in%2Fstorage%2Ffiles%2FDept%2Fcardiology.jpg&f=1&nofb=1" class="img-fluid rounded shadow department-img" alt="Cardiology">
+                </div>
+                <p class="mt-2 fw-bold">Cardiology</p>
+                <p>We can ensure you that your heart is going to be in the right hands!</p>
+            </div>
+            <!-- Dentistry -->
+            <div class="col-md-4 col-sm-6">
+                <div class="hover-effect">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.ncl.ac.uk%2Fmediav8%2Fdental%2Fimages%2Fdental-homepage-hero.jpg&f=1&nofb=1" class="img-fluid rounded shadow department-img" alt="Dentistry">
+                </div>
+                <p class="mt-2 fw-bold">Dentistry</p>
+                <p>Your smile will make the world even better after visiting our doctors!</p>
+            </div>
+            <!-- Pediatrics -->
+            <div class="col-md-4 col-sm-6">
+                <div class="hover-effect">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstorage.googleapis.com%2Ftreatspace-prod-media%2Fpracimg%2Fu-564%2Fimage_IG6hkZD.jpeg&f=1&nofb=1" class="img-fluid rounded shadow department-img" alt="Pediatrics">
+                </div>
+                <p class="mt-2 fw-bold">Pediatrics</p>
+                <p>Your kids will be happy to be treated here.</p>
+            </div>
+            <!-- Radiology -->
+            <div class="col-md-4 col-sm-6">
+                <div class="hover-effect">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcollege.mayo.edu%2Fmedia%2Fmccms%2Fcontent-assets%2Facademics%2Fresidencies-and-fellowships%2Fdiagnostic-radiology-residency-minnesota%2Fdepartment-and-faculty%2Fdiag-radiol-residency-mn-faculty.jpg&f=1&nofb=1" class="img-fluid rounded shadow department-img" alt="Radiology">
+                </div>
+                <p class="mt-2 fw-bold">Radiology</p>
+                <p>Let's take a nice picture of your internal world!</p>
+            </div>
+            <!-- Surgery -->
+            <div class="col-md-4 col-sm-6">
+                <div class="hover-effect">
+                    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.mayoclinic.org%2F-%2Fmedia%2Fkcms%2Fgbs%2Fpatient-consumer%2Fimages%2F2019%2F12%2F11%2F17%2F19%2Fsurgery-3113314-0117-8col.jpg&f=1&nofb=1" class="img-fluid rounded shadow department-img" alt="Surgery">
+                </div>
+                <p class="mt-2 fw-bold">Surgery</p>
+                <p>Skilled surgeons equipped to handle any situation!</p>
             </div>
         </div>
-    </section>
+    </div>
     <section id="faq" class="mx-4 my-4">
         <h2 class="text-center">FAQ</h2>
         <div class="accordion" id="accordionExample">
@@ -164,6 +158,7 @@
         </form>
     </section>
 </main>
+
 
 
 <div th:replace="~{fragments/footer :: footer}"></div>

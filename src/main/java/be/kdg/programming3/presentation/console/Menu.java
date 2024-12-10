@@ -1,9 +1,6 @@
 package be.kdg.programming3.presentation.console;
 
-import be.kdg.programming3.domain.Department;
-import be.kdg.programming3.domain.Doctor;
-import be.kdg.programming3.domain.Gender;
-import be.kdg.programming3.domain.Patient;
+import be.kdg.programming3.domain.*;
 import be.kdg.programming3.presentation.PatientController;
 import be.kdg.programming3.repository.DataFactory;
 import be.kdg.programming3.service.DoctorService;
@@ -11,6 +8,7 @@ import be.kdg.programming3.service.PatientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -29,9 +27,11 @@ public class Menu {
     * This ensures loose coupling between the layers
     *  as the Menu class only depends on the interfaces
     *  (DoctorService, PatientService), not on the actual implementations.
+    *
+    * TO USE WITH doctorServiceImplPostgres(h2) remove a qualifier
     * */
     @Autowired
-    public Menu(DoctorService doctorService, PatientService patientService) {
+    public Menu(@Qualifier("doctorServiceImplPostgres") DoctorService doctorService,@Qualifier("patientServiceImplPostgres") PatientService patientService) {
         this.doctorService = doctorService;
         this.patientService = patientService;
     }
@@ -323,7 +323,8 @@ public class Menu {
         }
 
         // Create a new Patient object using the correct constructor
-        Patient newPatient = new Patient(firstName, lastName, age, gender, patientId, billingAmount, admissionDate);
+        Hospital hospital = new Hospital();
+        Patient newPatient = new Patient(firstName, lastName, age, gender, patientId, billingAmount, admissionDate,hospital);
         patientService.addPatient(newPatient);
         System.out.println("Patient added successfully!");
     }

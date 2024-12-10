@@ -100,46 +100,46 @@ public class DataFactory {
         doctors.add(doctor3);
         doctors.add(doctor4);
 
-        // Create Patients
-        Patient patient1 = new Patient(
-                "John",
-                "Doe",
-                30,
-                Gender.MALE,
-                "P1001",
-                2500.50,
-                LocalDate.of(2023, 9, 1)
-        );
+     // Create Patients
+     Patient patient1 = new Patient(
+             "John",
+             "Doe",
+             30,
+             Gender.MALE,
+             "P1001",
+             2500.50,
+             LocalDate.of(2023, 9, 1),hospital1
+     );
 
-        Patient patient2 = new Patient(
-                "Jane",
-                "Smith",
-                45,
-                Gender.FEMALE,
-                "P1002",
-                5000.75,
-                LocalDate.of(2023, 9, 5)
-        );
+     Patient patient2 = new Patient(
+             "Jane",
+             "Smith",
+             45,
+             Gender.FEMALE,
+             "P1002",
+             5000.75,
+             LocalDate.of(2023, 9, 5),hospital2
+     );
 
-        Patient patient3 = new Patient(
-                "Alice",
-                "Brown",
-                25,
-                Gender.FEMALE,
-                "P1003",
-                1500.00,
-                LocalDate.of(2023, 9, 10)
-        );
+     Patient patient3 = new Patient(
+             "Alice",
+             "Brown",
+             25,
+             Gender.FEMALE,
+             "P1003",
+             1500.00,
+             LocalDate.of(2023, 9, 10),hospital3
+     );
 
-        Patient patient4 = new Patient(
-                "Bob",
-                "Johnson",
-                60,
-                Gender.MALE,
-                "P1004",
-                3000.25,
-                LocalDate.of(2023, 9, 15)
-        );
+     Patient patient4 = new Patient(
+             "Bob",
+             "Johnson",
+             60,
+             Gender.MALE,
+             "P1004",
+             3000.25,
+             LocalDate.of(2023, 9, 15),hospital4
+     );
 
         // Assign Patients to Doctors to establish many-to-many relationships
         doctor1.addPatient(patient1); // Dr. Emily treats John

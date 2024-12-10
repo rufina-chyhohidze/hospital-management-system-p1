@@ -34,12 +34,6 @@
                     <p class="card-text"><strong>Salary:</strong> <span th:text="${doctor.salary}"></span></p>
                     <p class="card-text"><strong>Hire Date:</strong> <span th:text="${doctor.hireDate}"></span></p>
                     <p class="card-text"><strong>Gender:</strong> <span th:text="${doctor.gender}"></span></p>
-                    <h3>Patients</h3>
-                    <ul>
-                        <li th:each="patient : ${doctor.patients}">
-                            <a th:href="@{/patients/{patientId}(patientId=${patient.patientId})}" th:text="${patient.firstName} + ' ' + ${patient.lastName}"></a>
-                        </li>
-                    </ul>
                     <h3>Assigned Patients</h3>
                     <ul>
                         <li th:each="patient : ${assignedPatients}">

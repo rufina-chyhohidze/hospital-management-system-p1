@@ -1,5 +1,7 @@
 package be.kdg.programming3.domain;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -10,14 +12,21 @@ import java.util.Objects;
  * Hospital (One-to-Many with Doctor)
  * A Hospital can employ many Doctors. Each Doctor works in only one Hospital.
  */
+@Entity
 public class Hospital {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String hospitalName;
     private String hospitalAddress;
-    private List<Department> departments; // Changed from String[] to List<Department>
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private List<Department> departments = new ArrayList<>(); // Changed from String[] to List<Department>
     private LocalDate establishedDate;
 
     // One-to-Many relationship: Hospital has many Doctors
-    private List<Doctor> doctors;
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Doctor> doctors = new ArrayList<>();
 
     public Hospital(String hospitalName, String hospitalAddress, List<Department> departments, LocalDate establishedDate) {
         if (establishedDate.isAfter(LocalDate.now())) {
@@ -30,12 +39,37 @@ public class Hospital {
         this.doctors = new ArrayList<>();
     }
 
-    /**
-     * Default Constructor
-     */
-    public Hospital() {
-        this.doctors = new ArrayList<>();
-        this.departments = new ArrayList<>();
+    public Hospital(){
+
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
+    }
+
+    public void setHospitalAddress(String hospitalAddress) {
+        this.hospitalAddress = hospitalAddress;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
+    public void setEstablishedDate(LocalDate establishedDate) {
+        this.establishedDate = establishedDate;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
     }
 
     // Getters

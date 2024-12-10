@@ -6,11 +6,13 @@ import be.kdg.programming3.domain.Patient;
 import be.kdg.programming3.presentation.viewmodels.PatientForm;
 import be.kdg.programming3.service.DoctorService;
 import be.kdg.programming3.service.PatientService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +30,7 @@ public class PatientController {
     private final DoctorService doctorService;
 
     @Autowired
-    public PatientController(PatientService patientService,DoctorService doctorService) {
+    public PatientController(@Qualifier("patientServiceImplPostgres") PatientService patientService, @Qualifier("doctorServiceImplPostgres") DoctorService doctorService) {
         this.patientService = patientService;
         this.doctorService = doctorService;
     }
@@ -41,6 +43,7 @@ public class PatientController {
         model.addAttribute("patients", patients);
         return "patients"; // returns the view called patients.html
     }
+
     @GetMapping ("/add")
     public String addPatientForm(Model model,HttpSession session) {
         model.addAttribute("patientForm", new PatientForm());
@@ -50,16 +53,20 @@ public class PatientController {
     }
 
     @GetMapping("/{patientId}")
-    public String getPatientDetails(@PathVariable String patientId, Model model,HttpSession session) {
-        Patient patient = patientService.findPatientById(patientId);
-        List<Doctor> doctors = doctorService.getAllDoctors(); // Get all doctors for dropdown
-        List<Doctor> assignedDoctors = patientService.getDoctorsForPatient(patientId);
+    public String getPatientDetails(@PathVariable String patientId, Model model) {
+        try {
+            Patient patient = patientService.findPatientById(patientId);
+            List<Doctor> doctors = doctorService.getAllDoctors();
+            List<Doctor> assignedDoctors = patientService.getDoctorsForPatient(patientId);
 
-        logger.debug(assignedDoctors.toString());
-        model.addAttribute("patient", patient);
-        model.addAttribute("allDoctors", doctors);
-        model.addAttribute("assignedDoctors", assignedDoctors);
-        return "patientDetails";
+            model.addAttribute("patient", patient);
+            model.addAttribute("allDoctors", doctors);
+            model.addAttribute("assignedDoctors", assignedDoctors);
+            return "patientDetails";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
     }
 
     @RequestMapping("/delete/{patientId}")
@@ -104,12 +111,19 @@ public class PatientController {
         logVisit(session, "Added Patient with ID: " + patientForm.getPatientId());
         return "redirect:/patients";
     }
+        @PostMapping("/{patientId}/assign-doctor")
+        public String assignDoctorToPatient(@PathVariable String patientId,
+                                            @RequestParam String doctorId) {
+            logger.info("Received Patient ID: " + patientId);
+            logger.info("Received Doctor ID: " + doctorId);
 
-    @PostMapping("/{patientId}/assign-doctor")
-    public String assignDoctorToPatient(@PathVariable String patientId, @RequestParam int doctorId) {
-        patientService.assignDoctorToPatient(patientId, doctorId);
-        return "redirect:/patients/" + patientId;
-    }
+            if (doctorId == null || doctorId.isEmpty()) {
+                throw new IllegalArgumentException("Doctor ID is empty");
+            }
+
+            patientService.assignDoctorToPatient(patientId, Integer.parseInt(doctorId));
+            return "redirect:/patients";
+        }
 
     public void logVisit(HttpSession session, String pageName) {
         List<Map<String, String>> visitHistory = (List<Map<String, String>>) session.getAttribute("visitHistory");

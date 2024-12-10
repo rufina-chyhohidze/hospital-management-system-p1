@@ -1,5 +1,7 @@
 package be.kdg.programming3.domain;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,16 +13,40 @@ import java.util.Set;
  * Hospital (One-to-Many with Doctor)
  * A Hospital can employ many Doctors. Each Doctor works in only one Hospital.
  */
+@Entity
+@Table(name = "doctors")
 public class Doctor {
+    @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "license_number", unique = true, nullable = false)
+    private int licenseNumber; // Doctor's unique identifier (primary key)
+
     private String firstName;
     private String lastName;
-    private Department department; // Using enum
-    private int licenseNumber;
+
+    @Enumerated(EnumType.STRING)
+    private Department department;
+
     private double salary;
+
     private LocalDate hireDate;
+
+    @Enumerated(EnumType.STRING)
     private Gender gender;
-    private Hospital hospital; // Reference to Hospital
-    private Set<Patient> patients; //relationship link to patients
+
+    // Many-to-Many relationship with Patient
+    @ManyToMany( cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH, CascadeType.MERGE})
+    @JoinTable(
+            name = "doctor_patient",
+            joinColumns = @JoinColumn(name = "license_number"),
+            inverseJoinColumns = @JoinColumn(name = "patient_id")
+    )
+    private Set<Patient> patients = new HashSet<>();
+
+    // Many-to-One relationship with Hospital
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hospital_id", nullable = true) // Foreign key to hospital
+    private Hospital hospital;
 
 
     public void setFirstName(String firstName) {
@@ -62,11 +88,8 @@ public class Doctor {
         this.patients = new HashSet<>();
     }
 
-    /**
-     * Default Constructor
-     */
     public Doctor() {
-        this.patients = new HashSet<>();
+
     }
 
     //constructor for addition a doctor
@@ -120,7 +143,7 @@ public class Doctor {
     }
 
     public Set<Patient> getPatients() {
-        return new HashSet<>(patients); // Return a copy to maintain encapsulation
+        return patients; // Return a copy to maintain encapsulation
     }
 
     // Many-to-Many Relationship Methods
