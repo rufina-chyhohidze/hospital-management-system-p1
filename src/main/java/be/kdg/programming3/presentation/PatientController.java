@@ -127,7 +127,7 @@ public class PatientController {
             }
             logVisit(session,"Assigned doctor to Patient with ID: " + patientId);
             patientService.assignDoctorToPatient(patientId, Integer.parseInt(doctorId));
-            return "redirect:/patients";
+            return "redirect:/patients/" + patientId;
         }
 
     public void logVisit(HttpSession session, String pageName) {

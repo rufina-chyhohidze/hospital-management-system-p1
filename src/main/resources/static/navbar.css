@@ -1,48 +1,46 @@
+body {
+    background-color: #FFCDD2;
+}
 
-.navbar {
-    background-color: #f8f9fa;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.bg-black {
+    background-color: #000;
 }
 
 .navbar-brand {
-    font-weight: bold; /* Make the brand text bold */
-    font-size: 1.5rem; /* Increase the font size for better visibility */
+    padding: 14px 20px;
+    font-size: 16px;
+}
+
+.navbar-nav {
+    width: 100%;
+}
+
+.nav-item {
+    padding: 6px 14px;
+    text-align: center;
 }
 
 .nav-link {
-    color: #007bff; /* Default link color */
-    transition: color 0.3s; /* Smooth color transition on hover */
+    padding-bottom: 10px;
 }
 
-.nav-link.active {
-    color: #0056b3;
-    font-weight: bold;
+.v-line {
+    background-color: gray;
+    width: 1px;
+    height: 20px;
 }
 
-.nav-link:hover {
-    color:lightgreen;
+.navbar-collapse.collapse.in {
+    display: block !important;
 }
-
-.navbar-toggler {
-    border-color: rgba(0, 0, 0, 0.1);
-}
-
-
-.navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 30 30'%3E%3Cpath stroke='rgb(0,123,255)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* Custom SVG for toggler */
-}
-
 
 @media (max-width: 576px) {
-    .navbar {
-        text-align: center;
-    }
-
-    .navbar-nav {
-        flex-direction: column;
-    }
-
     .nav-item {
-        margin-bottom: 10px;
+        width: 100%;
+        text-align: left;
+    }
+
+    .v-line {
+        display: none;
     }
 }
