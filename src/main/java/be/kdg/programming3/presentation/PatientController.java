@@ -38,7 +38,7 @@ public class PatientController {
     @GetMapping
     public String getAllPatients(Model model, HttpSession session) {
         logger.info("Fetching all patients...");
-       logVisit(session,"/patients");
+       logVisit(session,"Getting all patients...");
         List<Patient> patients = patientService.getAllPatients();
         model.addAttribute("patients", patients);
         return "patients"; // returns the view called patients.html
@@ -48,16 +48,17 @@ public class PatientController {
     public String addPatientForm(Model model,HttpSession session) {
         model.addAttribute("patientForm", new PatientForm());
         logger.info("Processing patient's form...");
-        logVisit(session,"/patients/add");
+        logVisit(session,"Inside the patient's form...");
         return "addpatient"; // returns the form to add a patient
     }
 
     @GetMapping("/{patientId}")
-    public String getPatientDetails(@PathVariable String patientId, Model model) {
+    public String getPatientDetails(@PathVariable String patientId, Model model,HttpSession session) {
         try {
             Patient patient = patientService.findPatientById(patientId);
             List<Doctor> doctors = doctorService.getAllDoctors();
             List<Doctor> assignedDoctors = patientService.getDoctorsForPatient(patientId);
+            logVisit(session,"Getting the details for patient with ID:" + " "+patientId +"...");
 
             model.addAttribute("patient", patient);
             model.addAttribute("allDoctors", doctors);
@@ -70,8 +71,11 @@ public class PatientController {
     }
 
     @RequestMapping("/delete/{patientId}")
-    public String deletePatient(@PathVariable String patientId) {
+    public String deletePatient(@PathVariable String patientId,HttpSession session) {
+        logger.info("Deleting patient: " + patientId + "....");
         patientService.removePatient(patientId);
+        logger.info("Patient deleted: " + patientId + " !");
+        logVisit(session,"Patient with ID: " + patientId + " deleted.");
         return "redirect:/patients";
     }
 
@@ -85,6 +89,7 @@ public class PatientController {
             // Fetch doctors again in case of form errors
             List<Doctor> doctors = doctorService.getAllDoctors();
             model.addAttribute("doctors", doctors);
+            logVisit(session,"Inside the patient's form...");
             return "addpatient";
         }
 
@@ -108,19 +113,19 @@ public class PatientController {
 
         patientService.addPatient(patient);
         logger.info("Patient added successfully: {}", patient);
-        logVisit(session, "Added Patient with ID: " + patientForm.getPatientId());
+        logVisit(session, "Added Patient with ID: " + patientForm.toString());
         return "redirect:/patients";
     }
         @PostMapping("/{patientId}/assign-doctor")
         public String assignDoctorToPatient(@PathVariable String patientId,
-                                            @RequestParam String doctorId) {
+                                            @RequestParam String doctorId,HttpSession session) {
             logger.info("Received Patient ID: " + patientId);
             logger.info("Received Doctor ID: " + doctorId);
 
             if (doctorId == null || doctorId.isEmpty()) {
                 throw new IllegalArgumentException("Doctor ID is empty");
             }
-
+            logVisit(session,"Assigned doctor to Patient with ID: " + patientId);
             patientService.assignDoctorToPatient(patientId, Integer.parseInt(doctorId));
             return "redirect:/patients";
         }

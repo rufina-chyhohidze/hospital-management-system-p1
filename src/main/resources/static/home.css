@@ -34,14 +34,14 @@
     flex-direction: column; /* Stacks elements vertically */
     align-items: center; /* Centers horizontally */
     justify-content: center; /* Centers vertically */
-    background: rgba(0, 0, 0, 0.6); /* Keep semi-transparent background */
+    background: rgba(173, 216, 230, 0.9); /* Light blue with 90% opacity */
     padding: 20px; /* Adds spacing */
-    border-radius: 5px;
+    border-radius: 15px; /* Increased border radius for more rounded corners */
 }
 
 .carousel-caption h1 {
-    font-size: 1.8rem; /* Scales down the heading size */
-    color: #fff; /* Ensures text contrasts against the background */
+    font-size: 2rem; /* Scales down the heading size */
+    color: white; /* Ensures text contrasts against the background */
 }
 
 .carousel-caption .btn {

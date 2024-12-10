@@ -21,10 +21,8 @@
 <div class="container-fluid px-1 py-5 mx-auto">
     <div class="row d-flex justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-            <h3 class="mb-4">Add Patient</h3>
-            <p class="blue-text">Please fill in the details below to add a patient.</p>
             <div class="card">
-                <h5 class="text-center mb-4">Patient Information</h5>
+                <h5 class="text-center mb-4">Add Patient information</h5>
                 <form th:action="@{/patients/add}" th:object="${patientForm}" method="post" class="form-card needs-validation" novalidate>
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-6 flex-column d-flex">
@@ -42,10 +40,10 @@
                     </div>
                     <div class="row justify-content-between text-left">
                         <div class="form-group col-sm-6 flex-column d-flex">
-                            <label class="form-control-label px-3" for="patient_id">Patient ID (P0000)<span class="text-danger"> *</span></label>
+                            <label class="form-control-label px-3" for="patient_id">Patient ID: <span class="text-danger"> *</span></label>
                             <input type="text" th:field="*{patientId}" id="patient_id" class="form-control" placeholder="Enter patient ID" required pattern="^{1}[0-9]{4}$" />
                             <div th:if="${#fields.hasErrors('patientId')}" th:errors="*{patientId}"></div>
-                            <div class="invalid-feedback">Patient ID must follow the format P0000.</div>
+                            <div class="invalid-feedback">Patient ID must follow the format 00000.</div>
                         </div>
                         <div class="form-group col-sm-6 flex-column d-flex">
                             <label class="form-control-label px-3" for="age">Age<span class="text-danger"> *</span></label>

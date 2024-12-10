@@ -53,7 +53,19 @@ public class PatientRepositoryImplPostgres implements PatientRepository {
     public void removePatient(String patientId) {
         Patient patient = findPatientById(patientId);
         if (patient != null) {
+            logger.info("Removing patient with ID: " + patientId);
+
+            // Unlink patient from all associated doctors
+            for (Doctor doctor : patient.getDoctors()) {
+                doctor.getPatients().remove(patient); // Remove patient from doctor's list
+            }
+            patient.getDoctors().clear(); // Clear the patient's doctor list
+
+            // Now safely remove the patient
             em.remove(patient);
+            logger.info("Patient with ID: " + patientId + " successfully removed");
+        } else {
+            logger.warn("Patient with ID: " + patientId + " not found");
         }
     }
 
@@ -69,7 +81,7 @@ public class PatientRepositoryImplPostgres implements PatientRepository {
             logger.debug("Starting merge...");
             em.merge(doctor);
             em.merge(patient);
-            em.flush();
+            //em.flush();
             logger.debug("Finished merge...");
         } else {
             throw new EntityNotFoundException("Doctor or Patient not found. Patient ID: " + patientId + ", Doctor ID: " + doctorId);

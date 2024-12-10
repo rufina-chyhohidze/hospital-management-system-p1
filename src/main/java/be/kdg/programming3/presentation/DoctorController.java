@@ -44,7 +44,7 @@ public class DoctorController {
     @GetMapping
     public String getAllDoctors(Model model, HttpSession session) {
         logger.info("Fetching all doctors...");
-        logVisit(session,"Visited All Doctors page");
+        logVisit(session,"Fetching all doctors...");
         model.addAttribute("doctors", doctorService.getAllDoctors());
         return "doctors";
     }
@@ -58,10 +58,12 @@ public class DoctorController {
     }
 
     @GetMapping("/{doctorId}")
-    public String getDoctorDetails(@PathVariable int doctorId, Model model) {
+    public String getDoctorDetails(@PathVariable int doctorId, Model model,HttpSession session) {
         Doctor doctor = doctorService.findDoctorByLicenseNumber(doctorId);
         List<Patient> patients = patientService.getPatientsForDoctor(doctorId); // fetch related patients
         List<Patient> allPatients = patientService.getAllPatients();
+        logVisit(session,"Getting details for Doctor with ID: " + doctorId);
+
 
         model.addAttribute("doctor", doctor);
         model.addAttribute("assignedPatients", patients);
@@ -88,23 +90,28 @@ public class DoctorController {
 
         doctorService.addDoctor(doctor);
         logger.info("Successfully added a new doctor: {}", doctorForm.toString());
-        logVisit(session,"Doctor addition session...");
+        logVisit(session,"Added Doctor with ID: " +doctorForm.toString());
         return "redirect:/doctors";
     }
 
     @PostMapping("/delete/{licenseNumber}")
-    public String deleteDoctor(@PathVariable int licenseNumber, RedirectAttributes redirectAttributes) {
+    public String deleteDoctor(@PathVariable int licenseNumber, RedirectAttributes redirectAttributes,HttpSession session) {
         try {
+            logger.info("Deleting doctor: "+licenseNumber + "....");
             doctorService.removeDoctor(licenseNumber);
             redirectAttributes.addFlashAttribute("successMessage", "Doctor deleted successfully!");
+            logger.info("Successfully deleted doctor: "+licenseNumber + "!");
+            logVisit(session,"Doctor with ID: "+ licenseNumber + " deleted successfully!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error deleting doctor: " + e.getMessage());
         }
         return "redirect:/doctors";
     }
     @PostMapping("/{doctorId}/assign-patient")
-    public String assignPatientToDoctor(@PathVariable int doctorId, @RequestParam String patientId) {
+    public String assignPatientToDoctor(@PathVariable int doctorId, @RequestParam String patientId,HttpSession session) {
         doctorService.assignPatientToDoctor(doctorId, patientId);
+        logVisit(session,"Doctor assignment session...");
+        logVisit(session,"Assigned patient to Doctor with ID: "+ doctorId);
         return "redirect:/doctors/" + doctorId;
     }
 
