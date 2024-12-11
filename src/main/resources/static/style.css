@@ -17,8 +17,8 @@ h1 {
     text-shadow: #0000cc 0 0 1px/* Darker shade for headings */
 }
 .btn-primary {
-    background-color: #a0d68b; /* Light green button */
-    border-color: #8dcf7f; /* Slightly darker green border */
+    color:white;
+
 }
 .btn-primary:hover {
     background-color: #8dcf7f; /* Darker green on hover */

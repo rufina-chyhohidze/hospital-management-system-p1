@@ -16,43 +16,55 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<div class="container mt-4">
-    <h1 class="mb-4">All Doctors</h1>
+<section class="intro">
+    <div class="bg-image h-100" style="background-image: url('https://mdbootstrap.com/img/Photos/new-templates/tables/img2.jpg');">
+        <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0,0,0,.25);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card bg-dark shadow-2-strong">
+                            <div class="card-body">
+                                <h1 class="text-white mb-4">All Doctors</h1>
+                                <a href="/doctors/add" class="btn btn-primary mb-3">Add New Doctor</a>
 
-
-    <a href="/doctors/add" class="btn btn-primary mb-3">Add New Doctor</a>
-
-    <div class="table-responsive">
-        <table class="table table-striped table-hover table-bordered">
-            <thead class="table-dark">
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>License Number</th>
-                <th>Salary</th>
-                <th>Department</th>
-                <th>Hire Date</th>
-                <th>Gender</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="doctor : ${doctors}">
-                <td th:text="${doctor.firstName}">First Name</td>
-                <td th:text="${doctor.lastName}">Last Name</td>
-                <td th:text="${doctor.licenseNumber}">License Number</td>
-                <td th:text="${doctor.salary}">Salary</td>
-                <td th:text="${doctor.department}">Department</td>
-                <td th:text="${doctor.hireDate}">Hire Date</td>
-                <td th:text="${doctor.gender}">Gender</td>
-                <td>
-                    <a th:href="@{/doctors/{licenseNumber}(licenseNumber=${doctor.licenseNumber})}" class="btn btn-info">View Details</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                                <div class="table-responsive">
+                                    <table class="table table-dark table-borderless mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">First Name</th>
+                                            <th scope="col">Last Name</th>
+                                            <th scope="col">License Number</th>
+                                            <th scope="col">Salary</th>
+                                            <th scope="col">Department</th>
+                                            <th scope="col">Hire Date</th>
+                                            <th scope="col">Gender</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="doctor : ${doctors}">
+                                            <td th:text="${doctor.firstName}">First Name</td>
+                                            <td th:text="${doctor.lastName}">Last Name</td>
+                                            <td th:text="${doctor.licenseNumber}">License Number</td>
+                                            <td th:text="${doctor.salary}">Salary</td>
+                                            <td th:text="${doctor.department}">Department</td>
+                                            <td th:text="${doctor.hireDate}">Hire Date</td>
+                                            <td th:text="${doctor.gender}">Gender</td>
+                                            <td>
+                                                <a th:href="@{/doctors/{licenseNumber}(licenseNumber=${doctor.licenseNumber})}" class="btn btn-info">View Details</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
