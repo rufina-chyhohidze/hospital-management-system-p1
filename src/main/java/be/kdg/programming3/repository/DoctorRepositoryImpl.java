@@ -19,13 +19,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-@Profile("new")
+@Profile("jdbc")
 public class DoctorRepositoryImpl implements DoctorRepository {
     private static final Logger logger = LoggerFactory.getLogger(DoctorRepositoryImpl.class);
     private final JdbcTemplate jdbcTemplate;
 
 
-    @Autowired
+   // @Autowired
     public DoctorRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

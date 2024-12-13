@@ -3,13 +3,16 @@ package be.kdg.programming3.service;
 import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Patient;
 import be.kdg.programming3.repository.PatientRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Service("patientServiceImplPostgres")
+@Service
+        //("patientServiceImplPostgres")
+@Profile("entity")
 public class PatientServiceImplPostgres implements PatientService {
     private final PatientRepository patientRepository;
 

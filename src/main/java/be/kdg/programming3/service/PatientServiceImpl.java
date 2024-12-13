@@ -8,6 +8,7 @@ import be.kdg.programming3.repository.PatientRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Profile({"old","jdbc"})
 public class PatientServiceImpl implements PatientService {
     private Logger logger = LoggerFactory.getLogger(PatientServiceImpl.class);
 

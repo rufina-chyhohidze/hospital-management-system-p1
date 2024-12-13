@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Profile("new")
+@Profile("jdbc")
 public class PatientRepositoryImpl implements PatientRepository {
     private static final Logger logger = LoggerFactory.getLogger(PatientRepositoryImpl.class);
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
+    //@Autowired
     public PatientRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

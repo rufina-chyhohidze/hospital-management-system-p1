@@ -30,8 +30,8 @@ public class Menu {
     *
     * TO USE WITH doctorServiceImplPostgres(h2) remove a qualifier
     * */
-    @Autowired
-    public Menu(@Qualifier("doctorServiceImplPostgres") DoctorService doctorService,@Qualifier("patientServiceImplPostgres") PatientService patientService) {
+    //@Autowired
+    public Menu( DoctorService doctorService, PatientService patientService) {
         this.doctorService = doctorService;
         this.patientService = patientService;
     }

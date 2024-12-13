@@ -29,8 +29,8 @@ public class PatientController {
     private final PatientService patientService;
     private final DoctorService doctorService;
 
-    @Autowired
-    public PatientController(@Qualifier("patientServiceImplPostgres") PatientService patientService, @Qualifier("doctorServiceImplPostgres") DoctorService doctorService) {
+    //@Autowired
+    public PatientController( PatientService patientService,DoctorService doctorService) {
         this.patientService = patientService;
         this.doctorService = doctorService;
     }

@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-@Profile("post")
+@Profile("entity")
 public class PatientRepositoryImplPostgres implements PatientRepository {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @PersistenceContext

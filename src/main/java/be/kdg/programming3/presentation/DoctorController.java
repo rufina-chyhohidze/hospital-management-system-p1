@@ -33,11 +33,11 @@ public class DoctorController {
 
     /**
      *
-     * @param doctorService - qualifier can be removed, to use doctorServiceImpl(h2)
+     * @param doctorService - qualifier can be removed, to use doctorServiceImpl(h2),"doctorJpaDataServiceImpl"(jpaData),"patientJpaDataServiceImpl"(jpaData)
      * @param patientService - now qualifier is used for postgres implementation
      */
-    @Autowired
-    public DoctorController(@Qualifier("doctorServiceImplPostgres") DoctorService doctorService, @Qualifier("patientServiceImplPostgres") PatientService patientService) {
+   // @Autowired
+    public DoctorController( DoctorService doctorService,PatientService patientService) {
         this.doctorService = doctorService;
         this.patientService = patientService;
     }

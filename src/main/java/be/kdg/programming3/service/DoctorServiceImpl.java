@@ -7,19 +7,21 @@ import be.kdg.programming3.repository.DoctorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Profile({"old","jdbc"})
 public class DoctorServiceImpl implements DoctorService {
     private Logger logger = LoggerFactory.getLogger(DoctorServiceImpl.class);
 
 
     private final DoctorRepository doctorRepository;
 
-    @Autowired
+    //@Autowired
     public DoctorServiceImpl(DoctorRepository doctorRepository) {
         logger.info("Creating doctor's repository...");
         this.doctorRepository = doctorRepository;
