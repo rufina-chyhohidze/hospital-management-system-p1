@@ -4,6 +4,8 @@ import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Patient;
 import be.kdg.programming3.repository.jpadata.DoctorJpaDataRepository;
 import be.kdg.programming3.repository.jpadata.PatientJpaDataRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import java.util.List;
         //("patientJpaDataServiceImpl")
 @Profile("jpa")
 public class PatientJpaDataServiceImpl implements PatientService {
+    private Logger logger = LoggerFactory.getLogger(PatientJpaDataServiceImpl.class);
+
     private final PatientJpaDataRepository patientRepository;
     private final DoctorJpaDataRepository doctorRepository;
 
@@ -57,7 +61,7 @@ public class PatientJpaDataServiceImpl implements PatientService {
             doctor.getPatients().remove(patient);
             doctorRepository.save(doctor); // Save the doctor after modification
         }
-
+        logger.info("Patient " + patientId + " removed");
         patientRepository.delete(patient);
     }
 
@@ -66,8 +70,14 @@ public class PatientJpaDataServiceImpl implements PatientService {
     public void assignDoctorToPatient(String patientId, int doctorId) {
         Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found"));
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new RuntimeException("Doctor not found"));
+
+        // Update both sides of the relationship
         patient.getDoctors().add(doctor);
-        patientRepository.save(patient);
+        doctor.getPatients().add(patient);
+
+        // Save the owning side (Doctor)
+        doctorRepository.save(doctor);
+        logger.info("Doctor " + doctorId + " assigned to patient " + patientId);
     }
 
     @Override
