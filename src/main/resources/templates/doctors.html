@@ -25,6 +25,12 @@
                         <div class="card bg-dark shadow-2-strong">
                             <div class="card-body">
                                 <h1 class="text-white mb-4">All Doctors</h1>
+                                <form action="/doctors/search" method="get" class="mb-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="licenseNumber" placeholder="Enter License Number" required>
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                    </div>
+                                </form>
                                 <a href="/doctors/add" class="btn btn-primary mb-3">Add New Doctor</a>
 
                                 <div class="table-responsive">

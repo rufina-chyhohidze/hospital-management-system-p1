@@ -13,12 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -129,6 +131,16 @@ public class PatientController {
             patientService.assignDoctorToPatient(patientId, Integer.parseInt(doctorId));
             return "redirect:/patients/" + patientId;
         }
+
+        //to be able to search for a patient by name or admission date.
+    @GetMapping("/search")
+    public String searchPatients(@RequestParam(required = false) String name,
+                                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate admissionDate,
+                                 Model model) {
+        List<Patient> patients = patientService.getPatientsByNameOrAdmissionDate(name, admissionDate);
+        model.addAttribute("patients", patients);
+        return "patients"; // Reuse the patients page to display the results
+    }
 
     public void logVisit(HttpSession session, String pageName) {
         List<Map<String, String>> visitHistory = (List<Map<String, String>>) session.getAttribute("visitHistory");

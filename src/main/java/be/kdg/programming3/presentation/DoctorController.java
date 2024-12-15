@@ -115,6 +115,26 @@ public class DoctorController {
         return "redirect:/doctors/" + doctorId;
     }
 
+    @GetMapping("/search")
+    public String searchDoctorByLicenseNumber(@RequestParam("licenseNumber") int licenseNumber, Model model, HttpSession session) {
+        // Fetch the doctor
+        Doctor doctor = doctorService.findDoctorByLicenseNumber(licenseNumber);
+        if (doctor == null) {
+            model.addAttribute("errorMessage", "No doctor found with license number " + licenseNumber);
+            logVisit(session, "Failed to find Doctor with License Number: " + licenseNumber);
+            return "error"; // Or another error page
+        }
+        List<Patient> patients = patientService.getPatientsForDoctor(licenseNumber);
+        List<Patient> allPatients = patientService.getAllPatients();
+
+        logVisit(session, "Searched Doctor with License Number: " + licenseNumber);
+        model.addAttribute("doctor", doctor);
+        model.addAttribute("assignedPatients", patients);
+        model.addAttribute("allPatients", allPatients);
+
+        return "doctorDetails"; 
+    }
+
 
     public void logVisit(HttpSession session, String pageName) {
         List<Map<String, String>> visitHistory = (List<Map<String, String>>) session.getAttribute("visitHistory");
