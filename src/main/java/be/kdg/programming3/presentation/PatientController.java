@@ -3,6 +3,7 @@ package be.kdg.programming3.presentation;
 import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Gender;
 import be.kdg.programming3.domain.Patient;
+import be.kdg.programming3.exceptions.PatientNotFoundException;
 import be.kdg.programming3.presentation.viewmodels.PatientForm;
 import be.kdg.programming3.service.DoctorService;
 import be.kdg.programming3.service.PatientService;
@@ -55,30 +56,50 @@ public class PatientController {
     }
 
     @GetMapping("/{patientId}")
-    public String getPatientDetails(@PathVariable String patientId, Model model,HttpSession session) {
-        try {
-            Patient patient = patientService.findPatientById(patientId);
-            List<Doctor> doctors = doctorService.getAllDoctors();
-            List<Doctor> assignedDoctors = patientService.getDoctorsForPatient(patientId);
-            logVisit(session,"Getting the details for patient with ID:" + " "+patientId +"...");
-
-            model.addAttribute("patient", patient);
-            model.addAttribute("allDoctors", doctors);
-            model.addAttribute("assignedDoctors", assignedDoctors);
-            return "patientDetails";
-        } catch (EntityNotFoundException e) {
-            model.addAttribute("error", e.getMessage());
-            return "error";
+    public String getPatientDetails(@PathVariable String patientId, Model model, HttpSession session) {
+        Patient patient = patientService.findPatientById(patientId);
+        if (patient == null) {
+            logger.error("Patient with ID {} not found", patientId);
+            throw new PatientNotFoundException("Patient with ID " + patientId + " not found.");
         }
+        List<Doctor> doctors = doctorService.getAllDoctors();
+        List<Doctor> assignedDoctors = patientService.getDoctorsForPatient(patientId);
+
+        logVisit(session, "Getting the details for patient with ID: " + patientId + "...");
+        model.addAttribute("patient", patient);
+        model.addAttribute("allDoctors", doctors);
+        model.addAttribute("assignedDoctors", assignedDoctors);
+        return "patientDetails";
     }
 
+
     @RequestMapping("/delete/{patientId}")
-    public String deletePatient(@PathVariable String patientId,HttpSession session) {
-        logger.info("Deleting patient: " + patientId + "....");
+    public String deletePatient(@PathVariable String patientId, HttpSession session) {
+        Patient patient = patientService.findPatientById(patientId);
+        if (patient == null) {
+            logger.error("Patient with ID {} not found, cannot delete.", patientId);
+            throw new PatientNotFoundException("Patient with ID " + patientId + " not found.");
+        }
+        logger.info("Deleting patient: " + patientId + "...");
         patientService.removePatient(patientId);
-        logger.info("Patient deleted: " + patientId + " !");
-        logVisit(session,"Patient with ID: " + patientId + " deleted.");
+        logger.info("Patient deleted: " + patientId + "!");
+        logVisit(session, "Patient with ID: " + patientId + " deleted.");
         return "redirect:/patients";
+    }
+
+    /**
+     * handles patientNotFoundException
+     * @param ex
+     * @param model
+     * @param session
+     * @return
+     */
+    @ExceptionHandler(PatientNotFoundException.class)
+    public String handlePatientNotFoundException(PatientNotFoundException ex, Model model, HttpSession session) {
+        logger.error("Exception: {}", ex.getMessage());
+        model.addAttribute("errorMessage", ex.getMessage());
+        logVisit(session, "Error: " + ex.getMessage());
+        return "patientError"; // Replace with your generic error page or create a specific error page for patients
     }
 
     @PostMapping("/add")
@@ -133,15 +154,23 @@ public class PatientController {
         }
 
         //to be able to search for a patient by name or admission date.
-    @GetMapping("/search")
-    public String searchPatients(@RequestParam(required = false) String name,
-                                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate admissionDate,
-                                 Model model) {
-        List<Patient> patients = patientService.getPatientsByNameOrAdmissionDate(name, admissionDate);
-        model.addAttribute("patients", patients);
-        return "patients"; // Reuse the patients page to display the results
-    }
+        @GetMapping("/search")
+        public String searchPatients(@RequestParam(required = false) String name,
+                                     @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate admissionDate,
+                                     Model model,HttpSession session) {
+            List<Patient> patients = patientService.getPatientsByNameOrAdmissionDate(name, admissionDate);
 
+            if (patients.isEmpty()) {
+                model.addAttribute("error", "No patients found for the given criteria.");
+                logger.warn("No patients found for name: {} and admissionDate: {}", name, admissionDate);
+                logVisit(session, "No patients found for name: " + name);
+                return "patientError"; // Redirects to an error page (e.g., error.html)
+            }
+
+
+            model.addAttribute("patients", patients);
+            return "patients"; // Reuse the patients page to display the results
+        }
     public void logVisit(HttpSession session, String pageName) {
         List<Map<String, String>> visitHistory = (List<Map<String, String>>) session.getAttribute("visitHistory");
         if (visitHistory == null) {

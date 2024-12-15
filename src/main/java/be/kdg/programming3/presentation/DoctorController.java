@@ -4,6 +4,7 @@ import be.kdg.programming3.domain.Department;
 import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Gender;
 import be.kdg.programming3.domain.Patient;
+import be.kdg.programming3.exceptions.DoctorNotFoundException;
 import be.kdg.programming3.presentation.viewmodels.DoctorForm;
 import be.kdg.programming3.service.DoctorService;
 import be.kdg.programming3.service.PatientService;
@@ -58,17 +59,37 @@ public class DoctorController {
     }
 
     @GetMapping("/{doctorId}")
-    public String getDoctorDetails(@PathVariable int doctorId, Model model,HttpSession session) {
+    public String getDoctorDetails(@PathVariable int doctorId, Model model, HttpSession session) {
         Doctor doctor = doctorService.findDoctorByLicenseNumber(doctorId);
-        List<Patient> patients = patientService.getPatientsForDoctor(doctorId); // fetch related patients
-        List<Patient> allPatients = patientService.getAllPatients();
-        logVisit(session,"Getting details for Doctor with ID: " + doctorId);
+        if (doctor == null) {
+            logger.error("Doctor with ID {} not found", doctorId);
+            logVisit(session,"Doctor with ID " + doctorId + " not found");
+            throw new DoctorNotFoundException("Doctor with ID " + doctorId + " not found.");
+        }
 
+        List<Patient> patients = patientService.getPatientsForDoctor(doctorId);
+        List<Patient> allPatients = patientService.getAllPatients();
+        logVisit(session, "Getting details for Doctor with ID: " + doctorId);
 
         model.addAttribute("doctor", doctor);
         model.addAttribute("assignedPatients", patients);
         model.addAttribute("allPatients", allPatients);
         return "doctorDetails";
+    }
+
+    /**
+     * To handle doctorNotFoundException
+     * @param ex
+     * @param model
+     * @param session
+     * @return
+     */
+    @ExceptionHandler(DoctorNotFoundException.class)
+    public String handleDoctorNotFoundException(DoctorNotFoundException ex, Model model, HttpSession session) {
+        logger.error("Exception: {}", ex.getMessage());
+        model.addAttribute("errorMessage", ex.getMessage());
+        logVisit(session, "Error: " + ex.getMessage());
+        return "error"; // Replace with the name of your error view
     }
 
 
@@ -107,6 +128,7 @@ public class DoctorController {
         }
         return "redirect:/doctors";
     }
+
     @PostMapping("/{doctorId}/assign-patient")
     public String assignPatientToDoctor(@PathVariable int doctorId, @RequestParam String patientId,HttpSession session) {
         doctorService.assignPatientToDoctor(doctorId, patientId);
@@ -132,10 +154,15 @@ public class DoctorController {
         model.addAttribute("assignedPatients", patients);
         model.addAttribute("allPatients", allPatients);
 
-        return "doctorDetails"; 
+        return "doctorDetails";
     }
 
 
+    /**
+     * method to log the visit
+     * @param session
+     * @param pageName
+     */
     public void logVisit(HttpSession session, String pageName) {
         List<Map<String, String>> visitHistory = (List<Map<String, String>>) session.getAttribute("visitHistory");
         if (visitHistory == null) {

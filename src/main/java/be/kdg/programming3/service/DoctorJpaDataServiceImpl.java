@@ -3,6 +3,7 @@ package be.kdg.programming3.service;
 import be.kdg.programming3.domain.Department;
 import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Patient;
+import be.kdg.programming3.exceptions.DoctorNotFoundException;
 import be.kdg.programming3.repository.jpadata.DoctorJpaDataRepository;
 import be.kdg.programming3.repository.jpadata.PatientJpaDataRepository;
 import org.slf4j.Logger;
@@ -63,7 +64,7 @@ public class DoctorJpaDataServiceImpl implements DoctorService{
     @Override
     @Transactional
     public void assignPatientToDoctor(int doctorId, String patientId) {
-        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new RuntimeException("Doctor not found"));
+        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> new DoctorNotFoundException("Doctor with license number " + doctorId + " not found"));
         Patient patient = patientRepository.findById(patientId).orElseThrow(() -> new RuntimeException("Patient not found"));
 
         // Update both sides of the relationship
