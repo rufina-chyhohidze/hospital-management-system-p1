@@ -10,13 +10,18 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
+/**
+ *  this configuration allows users to switch the language of the application by adding a lang parameter to the URL
+ *   the user's locale will be stored in the session,
+ *   LocaleChangeInterceptor so that the interceptor will be applied to incoming HTTP requests.
+ */
 @Configuration
 public class LocaleConfig implements WebMvcConfigurer {
 
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver resolver = new SessionLocaleResolver();
-        resolver.setDefaultLocale(Locale.ENGLISH); // Default locale
+        resolver.setDefaultLocale(Locale.ENGLISH); // Default
         return resolver;
     }
 

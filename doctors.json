@@ -1,0 +1,65 @@
+[
+  {
+    "licenseNumber": 120120,
+    "firstName": "Jake",
+    "lastName": "Robins",
+    "department": "DENTISTRY",
+    "salary": 100000.0,
+    "hireDate": "2024-12-04",
+    "gender": "MALE"
+  },
+  {
+    "licenseNumber": 44044,
+    "firstName": "Arthur",
+    "lastName": "IdontKnow",
+    "department": "DENTISTRY",
+    "salary": 43000.0,
+    "hireDate": "2024-12-05",
+    "gender": "MALE"
+  },
+  {
+    "licenseNumber": 1111111,
+    "firstName": "Ben ",
+    "lastName": "Quadinaros",
+    "department": "RADIOLOGY",
+    "salary": 50000.0,
+    "hireDate": "2024-10-23",
+    "gender": "OTHER"
+  },
+  {
+    "licenseNumber": 100001,
+    "firstName": "Greg",
+    "lastName": "Pit",
+    "department": "SURGERY",
+    "salary": 12022.0,
+    "hireDate": "2024-12-30",
+    "gender": "MALE"
+  },
+  {
+    "licenseNumber": 3222,
+    "firstName": "Kils",
+    "lastName": "Lok",
+    "department": "DENTISTRY",
+    "salary": 12.0,
+    "hireDate": "2025-01-08",
+    "gender": "MALE"
+  },
+  {
+    "licenseNumber": 100003,
+    "firstName": "Mike ",
+    "lastName": "Rest",
+    "department": "CARDIOLOGY",
+    "salary": 12000.0,
+    "hireDate": "2024-11-06",
+    "gender": "MALE"
+  },
+  {
+    "licenseNumber": 10008,
+    "firstName": "Carl",
+    "lastName": "Jerry",
+    "department": "RADIOLOGY",
+    "salary": 45000.0,
+    "hireDate": "2024-10-30",
+    "gender": "MALE"
+  }
+]

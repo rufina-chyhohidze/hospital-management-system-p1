@@ -1,0 +1,74 @@
+[
+  {
+    "patientId": "12000",
+    "firstName": "Olivia",
+    "lastName": "Miski",
+    "age": 21,
+    "gender": "MALE",
+    "billingAmount": 1200.0,
+    "admissionDate": "2024-12-02"
+  },
+  {
+    "patientId": "123456",
+    "firstName": "Franini",
+    "lastName": "Aghemio",
+    "age": 35,
+    "gender": "MALE",
+    "billingAmount": 3020.0,
+    "admissionDate": "2024-12-15"
+  },
+  {
+    "patientId": "120101",
+    "firstName": "Jake",
+    "lastName": "Ramzey",
+    "age": 21,
+    "gender": "MALE",
+    "billingAmount": 2100.0,
+    "admissionDate": "2024-12-31"
+  },
+  {
+    "patientId": "33422",
+    "firstName": "Fran",
+    "lastName": "Aghemio",
+    "age": 34,
+    "gender": "MALE",
+    "billingAmount": 1200.0,
+    "admissionDate": "2024-12-29"
+  },
+  {
+    "patientId": "777777",
+    "firstName": "Mira",
+    "lastName": "Tkachuk",
+    "age": 20,
+    "gender": "FEMALE",
+    "billingAmount": 9000.0,
+    "admissionDate": "2024-12-31"
+  },
+  {
+    "patientId": "100002",
+    "firstName": "Ostap",
+    "lastName": "Miroshnichenko",
+    "age": 24,
+    "gender": "MALE",
+    "billingAmount": 45000.0,
+    "admissionDate": "2024-09-11"
+  },
+  {
+    "patientId": "100009",
+    "firstName": "Stephanie",
+    "lastName": "Maes",
+    "age": 29,
+    "gender": "FEMALE",
+    "billingAmount": 3900.0,
+    "admissionDate": "2024-11-06"
+  },
+  {
+    "patientId": "66066",
+    "firstName": "Steve",
+    "lastName": "Jobs",
+    "age": 34,
+    "gender": "MALE",
+    "billingAmount": 12000.0,
+    "admissionDate": "2024-10-27"
+  }
+]

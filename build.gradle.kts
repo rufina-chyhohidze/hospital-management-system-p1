@@ -31,7 +31,7 @@ dependencies {
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
+	implementation("com.google.code.gson:gson:2.11.0")
 }
 tasks.getByName("bootRun",JavaExec::class){
 	standardInput = System.`in`
