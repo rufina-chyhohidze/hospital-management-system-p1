@@ -1,4 +1,4 @@
-package be.kdg.programming3.presentation;
+package be.kdg.programming3.presentation.webconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

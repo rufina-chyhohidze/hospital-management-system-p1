@@ -1,8 +1,9 @@
-package be.kdg.programming3.repository;
+package be.kdg.programming3.repository.postgres;
 
 import be.kdg.programming3.domain.Department;
 import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Patient;
+import be.kdg.programming3.repository.DoctorRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;

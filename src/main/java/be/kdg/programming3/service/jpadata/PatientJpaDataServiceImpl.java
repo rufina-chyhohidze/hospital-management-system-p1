@@ -1,12 +1,12 @@
-package be.kdg.programming3.service;
+package be.kdg.programming3.service.jpadata;
 
 import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Patient;
 import be.kdg.programming3.repository.jpadata.DoctorJpaDataRepository;
 import be.kdg.programming3.repository.jpadata.PatientJpaDataRepository;
+import be.kdg.programming3.service.PatientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,6 @@ public class PatientJpaDataServiceImpl implements PatientService {
     private final PatientJpaDataRepository patientRepository;
     private final DoctorJpaDataRepository doctorRepository;
 
-    //@Autowired
     public PatientJpaDataServiceImpl(PatientJpaDataRepository patientRepository, DoctorJpaDataRepository doctorRepository) {
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;

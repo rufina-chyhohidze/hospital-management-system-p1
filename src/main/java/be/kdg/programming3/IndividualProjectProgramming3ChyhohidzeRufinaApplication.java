@@ -13,5 +13,4 @@ public class IndividualProjectProgramming3ChyhohidzeRufinaApplication {
 				SpringApplication.run(IndividualProjectProgramming3ChyhohidzeRufinaApplication.class, args);
 		context.getBean(Menu.class).print();
 	}
-// // //
 }

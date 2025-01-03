@@ -1,4 +1,4 @@
-package be.kdg.programming3.repository;
+package be.kdg.programming3.repository.java_collections;
 
 import be.kdg.programming3.domain.*;
 

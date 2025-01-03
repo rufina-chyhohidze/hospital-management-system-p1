@@ -1,92 +1,93 @@
-# individual_project_programming3_chyhohidze_rufina
+# Hospital Management System
 
-## Getting started
-Project name: "Hospital management system"
+### Author: Chyhohidze Rufina (ACS202)
 
-Student Chyhohidze Rufina(ACS202)
+---
 
-## Explanation of the domain
+## Overview
+This project is a **Hospital Management System** that helps manage hospital operations such as 
+handling patient records, assigning doctors, and exporting data.
+The focus is on providing basic functionality for adding, searching, and managing doctors and patients while maintaining relationships between entities.
 
+---
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/RufinaChyhohidze/individual_project_programming3_chyhohidze_rufina.git
-git branch -M main
-git push -uf origin main
-```
+## Domain Explanation
 
-## Explanation of profiles
+### Entities
+1. **Hospital**  
+   Represents the hospital with attributes like:
+    - Name
+    - Address
+    - Departments
 
-- 
+2. **Doctor**  
+   Doctors work at a hospital and can treat multiple patients. Key attributes:
+    - First Name & Last Name
+    - License Number (Unique Identifier)
+    - Department (Specialization)
+    - Salary and Hire Date
+    - Associated Hospital and Patients
 
-## Database configurations
+3. **Patient**  
+   Patients receive treatment from one or more doctors. Attributes include:
+    - Name (First & Last)
+    - Patient ID (Unique Identifier)
+    - Age & Gender
+    - Admission Date
+    - Billing Amount
 
-- 
+### Relationships
+- A **Hospital** can have multiple doctors (one-to-many).
+- A **Doctor** can treat many patients, and a **Patient** can have multiple doctors (many-to-many).
 
-## Test and Deploy
+---
 
-Use the built-in continuous integration in GitLab.
+## Profiles
+ - 0ld : The very first implementation with Java Collections so no data being stored in database.
+ - H2  : Using Spring JDBC (JdbcTemplates) in combination with a H2DB (in memory).
+ - Jdbc: Devided with using Spring JDBC (JdbcTemplates) in combination with a H2DB (in memory).
+ - Post: Post is divided on 2, first part is database connection(application.properties to choose a
+   database)
+   #2nd part - entity , we use it in services and repositories (we need it for use a concrete implementation with
+   #entity manager(jpa v1), uses postgres database.
+ - Jpa: uses Jpa and postgres database. For JpaData Repository it's uses this profile + Entity.
+---
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
+## Database Configuration(h2)
+- **Database**: H2
+- **Database** URL: jdbc:h2:file:./db/testdb
+- **Username**: sa
+- **Password**: password 
 
+## Postgres 
+- **Database URL**: jdbc:postgresql://localhost:5432/postgres
+- **Username**: postgres
+- **Password**: Student_1234
 
-***
+## Export of two main entities in Json format (patients and doctors)
+ - export is being saved in the root directory and has a names patients.json and doctors.json
 
-## Badges
+### Setting Up
+1. Create H2 database using this URL: jdbc:h2:file:./db/testdb OR postgres database with this URL:jdbc:postgresql://localhost:5432/postgres
+2. Update `application.properties` in the project if your database credentials differ.
+3. The application will handle table creation automatically on the first run.
 
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the
-project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+---
 
-## Visuals
+## How to Run
+### Prerequisites
+- JDK 17 or higher
+- Postgres database, H2 database 
+- Maven or Gradle installed
 
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see
-GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+### Steps
+1. Clone the repository:
+   ```bash
+   git clone https://gitlab.com/RufinaChyhohidze/individual_project_programming3_chyhohidze_rufina.git
+Open the project in your favorite IDE (e.g., IntelliJ IDEA, Eclipse).
+Configure your database settings in application.properties.
+Run the main class:
+IndividualProjectProgramming3ChyhohidzeRufinaApplication
+Access the application in your browser at:
+http://localhost:8080
 
-## Installation
-
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew.
-However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing
-specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a
-specific context like a particular programming language version or operating system or has dependencies that have to be
-installed manually, also add a Requirements subsection.
-
-## Usage
-
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of
-usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably
-include in the README.
-
-## Support
-
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address,
-etc.
-
-## Roadmap
-
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started.
-Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps
-explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce
-the likelihood that the changes inadvertently break something. Having instructions for running tests is especially
-helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-
-Show your appreciation to those who have contributed to the project.
-
-## License
-
-For open source projects, say how it is licensed.
-
-## Project status
-
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has
-slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or
-owner, allowing your project to keep going. You can also make an explicit request for maintainers.

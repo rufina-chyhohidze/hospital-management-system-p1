@@ -1,8 +1,9 @@
-package be.kdg.programming3.service;
+package be.kdg.programming3.service.jdbc;
 
 import be.kdg.programming3.domain.Department;
 import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.repository.DoctorRepository;
+import be.kdg.programming3.service.DoctorService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

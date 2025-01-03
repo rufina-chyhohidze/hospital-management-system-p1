@@ -1,7 +1,8 @@
-package be.kdg.programming3.repository;
+package be.kdg.programming3.repository.java_collections;
 
 import be.kdg.programming3.domain.Department;
 import be.kdg.programming3.domain.Doctor;
+import be.kdg.programming3.repository.DoctorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;

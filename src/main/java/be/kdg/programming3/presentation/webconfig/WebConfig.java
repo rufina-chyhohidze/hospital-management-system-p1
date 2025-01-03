@@ -1,4 +1,4 @@
-package be.kdg.programming3.presentation;
+package be.kdg.programming3.presentation.webconfig;
 
 import be.kdg.programming3.presentation.converters.StringToDepartmentConverter;
 import be.kdg.programming3.presentation.converters.StringToGenderConverter;

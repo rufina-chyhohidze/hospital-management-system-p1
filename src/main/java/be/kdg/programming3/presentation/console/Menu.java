@@ -1,14 +1,9 @@
 package be.kdg.programming3.presentation.console;
 
 import be.kdg.programming3.domain.*;
-import be.kdg.programming3.presentation.PatientController;
-import be.kdg.programming3.repository.DataFactory;
+import be.kdg.programming3.repository.java_collections.DataFactory;
 import be.kdg.programming3.service.DoctorService;
 import be.kdg.programming3.service.PatientService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
