@@ -1,4 +1,6 @@
-
+/**
+ * Validation for forms
+ */
     (function () {
     'use strict';
     const forms = document.querySelectorAll('.needs-validation');

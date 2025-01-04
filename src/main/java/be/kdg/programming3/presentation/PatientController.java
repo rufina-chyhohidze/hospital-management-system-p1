@@ -7,13 +7,10 @@ import be.kdg.programming3.exceptions.PatientNotFoundException;
 import be.kdg.programming3.presentation.viewmodels.PatientForm;
 import be.kdg.programming3.service.DoctorService;
 import be.kdg.programming3.service.PatientService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Controller
@@ -32,7 +28,6 @@ public class PatientController {
     private final PatientService patientService;
     private final DoctorService doctorService;
 
-    //@Autowired
     public PatientController( PatientService patientService,DoctorService doctorService) {
         this.patientService = patientService;
         this.doctorService = doctorService;
@@ -167,10 +162,10 @@ public class PatientController {
                 return "patientError"; // Redirects to an error page (e.g., error.html)
             }
 
-
             model.addAttribute("patients", patients);
             return "patients"; // Reuse the patients page to display the results
         }
+
     public void logVisit(HttpSession session, String pageName) {
         List<Map<String, String>> visitHistory = (List<Map<String, String>>) session.getAttribute("visitHistory");
         if (visitHistory == null) {

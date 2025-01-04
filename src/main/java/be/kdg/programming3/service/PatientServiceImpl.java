@@ -12,6 +12,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ *  Being used for jdbc and very first implementations using list
+ */
 @Service
 @Profile({"old","jdbc"})
 public class PatientServiceImpl implements PatientService {

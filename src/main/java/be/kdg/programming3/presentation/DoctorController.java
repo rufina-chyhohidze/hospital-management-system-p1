@@ -31,7 +31,6 @@ public class DoctorController {
     private static final Logger logger = LoggerFactory.getLogger(DoctorController.class);
     private final DoctorService doctorService;
     private final PatientService patientService;
-
     /**
      *
      * @param doctorService - qualifier can be removed, to use doctorServiceImpl(h2),"doctorJpaDataServiceImpl"(jpaData),"patientJpaDataServiceImpl"(jpaData)
@@ -76,7 +75,6 @@ public class DoctorController {
         model.addAttribute("allPatients", allPatients);
         return "doctorDetails";
     }
-
     /**
      * To handle doctorNotFoundException
      * @param ex
@@ -156,8 +154,6 @@ public class DoctorController {
 
         return "doctorDetails";
     }
-
-
     /**
      * method to log the visit
      * @param session
@@ -174,5 +170,4 @@ public class DoctorController {
         visitEntry.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         visitHistory.add(visitEntry);
     }
-
 }

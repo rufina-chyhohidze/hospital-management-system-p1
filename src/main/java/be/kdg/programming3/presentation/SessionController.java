@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
+/**
+ * Class for applying and log sessions.
+ */
 @Controller
 public class SessionController {
     private static final Logger logger = LoggerFactory.getLogger(SessionController.class);

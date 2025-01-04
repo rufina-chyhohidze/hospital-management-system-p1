@@ -17,13 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Uses JDBC templates and H2 database.
+ */
+
 @Repository
 @Profile("jdbc")
 public class PatientRepositoryImpl implements PatientRepository {
     private static final Logger logger = LoggerFactory.getLogger(PatientRepositoryImpl.class);
     private final JdbcTemplate jdbcTemplate;
 
-    //@Autowired
     public PatientRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Uses JpaDataRepositories
+ */
 @Service
         //("doctorJpaDataServiceImpl")
 @Profile("jpa")
@@ -25,7 +28,6 @@ public class DoctorJpaDataServiceImpl implements DoctorService {
     private final PatientJpaDataRepository patientRepository;
 
 
-    //@Autowired
     public DoctorJpaDataServiceImpl(DoctorJpaDataRepository doctorRepository, PatientJpaDataRepository patientRepository) {
         this.doctorRepository = doctorRepository;
         this.patientRepository = patientRepository;

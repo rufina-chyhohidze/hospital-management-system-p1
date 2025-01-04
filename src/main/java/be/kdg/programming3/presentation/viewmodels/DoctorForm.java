@@ -1,7 +1,5 @@
 package be.kdg.programming3.presentation.viewmodels;
 
-import be.kdg.programming3.domain.Department;
-import be.kdg.programming3.domain.Gender;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

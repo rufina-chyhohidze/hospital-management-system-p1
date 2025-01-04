@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * entity ,we use it in services and repositories(we need it for use a concrete implementation with
+ * #entity manager(jpa v1)
+ */
 @Repository
 @Profile("entity")
 public class DoctorRepositoryImplPostgres implements DoctorRepository {
@@ -77,20 +81,15 @@ public class DoctorRepositoryImplPostgres implements DoctorRepository {
             throw new EntityNotFoundException("Entities not found!");
         }
 
-//        System.err.println("\n\n\nADDING THIS PATIENT: " + patient+"\n\n\n");
         doctor.getPatients().add(patient);
-//        System.err.println("\n\n\npatients of doctor:"+doctor.getPatients()+" ADDED\n\n\n");
         patient.getDoctors().add(doctor);
 
         logger.debug("Assigning patient {} to doctor {}", patientId, doctorId);
 
-        // Use merge to update entities in the persistence context
+        // merge to update entities in the persistence context
         em.merge(doctor);
-//        em.merge(patient);
-//        em.flush();
 
         logger.debug("Assignment successful!");
     }
-
 
 }

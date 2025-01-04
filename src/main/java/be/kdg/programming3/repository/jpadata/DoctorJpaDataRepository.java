@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-
+/**
+ * uses JpaRepositories with additional query methods.
+ */
 @Profile("jpa")
 @Repository
 public interface DoctorJpaDataRepository extends JpaRepository<Doctor, Integer> {

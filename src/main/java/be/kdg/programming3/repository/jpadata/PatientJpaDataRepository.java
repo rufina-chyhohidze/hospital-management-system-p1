@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * uses JpaRepositories with additional query methods.
+ */
 @Profile("jpa")
 @Repository
 public interface PatientJpaDataRepository  extends JpaRepository<Patient, String> {

@@ -17,7 +17,6 @@ import java.util.Set;
 @Table(name = "doctors")
 public class Doctor {
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "license_number", unique = true, nullable = false)
     private int licenseNumber; // Doctor's unique identifier (primary key)
 

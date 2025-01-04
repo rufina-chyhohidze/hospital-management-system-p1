@@ -31,9 +31,6 @@ public class Patient {
 
     // Many-to-Many relationship with Doctor
     @ManyToMany(mappedBy = "patients", cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.REFRESH, CascadeType.MERGE})
-
-//    , referencedColumnName = "patient_id"
-//    , referencedColumnName = "license_number"
     private Set<Doctor> doctors = new HashSet<>();
 
     // Many-to-One relationship with Hospital
@@ -56,11 +53,6 @@ public class Patient {
     public Patient(){
 
     }
-
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-
     public Hospital getHospital() {
         return hospital;
     }
@@ -72,8 +64,6 @@ public class Patient {
     /**
      * Default Constructor
      */
-
-
     // Getters and Setters
     public String getFirstName() {
         return firstName;
@@ -98,11 +88,6 @@ public class Patient {
     public String getPatientId() {
         return patientId;
     }
-
-//    public Long getId() {
-      //  return id;
-//    }
-
     public double getBillingAmount() {
         return billingAmount;
     }

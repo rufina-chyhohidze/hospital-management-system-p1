@@ -3,29 +3,24 @@ package be.kdg.programming3.repository;
 import be.kdg.programming3.domain.Department;
 import be.kdg.programming3.domain.Doctor;
 import be.kdg.programming3.domain.Gender;
-import be.kdg.programming3.domain.Patient;
-import be.kdg.programming3.presentation.PatientController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
+/**
+ * Uses JDBC templates and H2 database.
+ */
 @Repository
 @Profile("jdbc")
 public class DoctorRepositoryImpl implements DoctorRepository {
     private static final Logger logger = LoggerFactory.getLogger(DoctorRepositoryImpl.class);
     private final JdbcTemplate jdbcTemplate;
 
-
-   // @Autowired
     public DoctorRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

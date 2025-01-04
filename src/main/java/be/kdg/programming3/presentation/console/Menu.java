@@ -22,10 +22,7 @@ public class Menu {
     * This ensures loose coupling between the layers
     *  as the Menu class only depends on the interfaces
     *  (DoctorService, PatientService), not on the actual implementations.
-    *
-    * TO USE WITH doctorServiceImplPostgres(h2) remove a qualifier
     * */
-    //@Autowired
     public Menu( DoctorService doctorService, PatientService patientService) {
         this.doctorService = doctorService;
         this.patientService = patientService;

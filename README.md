@@ -9,6 +9,25 @@ This project is a **Hospital Management System** that helps manage hospital oper
 handling patient records, assigning doctors, and exporting data.
 The focus is on providing basic functionality for adding, searching, and managing doctors and patients while maintaining relationships between entities.
 
+### Project implementation review:
+- Implemented 3 entities (Patient, Doctor, Hospital) with its attributes, toString + DataFactory to fill up the lists of the entities.
+- The very first version of the application shows the menu in the console, where you can operate.
+- The application follows 3-layered architecture which are: Presentation layer(contains the view code and separated from the view logic), Business layer(services + domain),Data access layer(contains the data classes(repositories)).
+- The application uses loose coupling between the layers by having interfaces and uses dependency injection to connect the different classes.
+- The web application has 6 pages, which are (Home page, Patients, Doctors, Add Doctor, Add Patient, Check session history) each of them has its own role and functionality.
+- Logger is being used in all classes that are providing meaningful log message to console.
+- Bootstrap styling, fragments for navbar and footer, client-side validation, support of French language is being applied.
+- ViewModel for DoctorForm and PatientForm, converter for enums, session history is being shown on the separate page.
+- Implemented the Repository of 2 main entities using Spring JDBC (JdbcTemplates) in combination with a H2DB (in memory) which uses schema.sql and data.sql to load initial data.
+- Uses profiles(4 implementations) to be able to switch between the old implementation (using Java Collections) and the new implementations (using JDBC,JPA).
+- Application(is CRUD), meaning you can perform Creation of Doctors and Patients, Read available data, Update and Delete functionality.
+- method queries to main entity’s repository, custom query method (using @Query annotation).
+- Two custom error pages(DoctorNotFoundException, PatientNotFoundException) which are being used at the Controller level.
+- 2 buttons to export entities on patients and doctors page in Json format, they're being saved in root directory in patients.json and doctors, json files and are available for save and viewing.
+- - - Seamless and easy user experience by using Hospital Management System is being guaranteed!
+
+### Not implemented, postponed for later release:
+- picture uploading for a doctor's and patient's form, and showing it in doctorDetails and patientDetails page.
 ---
 
 ## Domain Explanation
@@ -39,13 +58,12 @@ The focus is on providing basic functionality for adding, searching, and managin
 ### Relationships
 - A **Hospital** can have multiple doctors (one-to-many).
 - A **Doctor** can treat many patients, and a **Patient** can have multiple doctors (many-to-many).
-
 ---
 
 ## Profiles
  - 0ld : The very first implementation with Java Collections so no data being stored in database.
  - H2  : Using Spring JDBC (JdbcTemplates) in combination with a H2DB (in memory).
- - Jdbc: Devided with using Spring JDBC (JdbcTemplates) in combination with a H2DB (in memory).
+ - Jdbc: Divided with using Spring JDBC (JdbcTemplates) in combination with a H2DB (in memory).
  - Post: Post is divided on 2, first part is database connection(application.properties to choose a
    database)
    #2nd part - entity , we use it in services and repositories (we need it for use a concrete implementation with
@@ -90,4 +108,5 @@ Run the main class:
 IndividualProjectProgramming3ChyhohidzeRufinaApplication
 Access the application in your browser at:
 http://localhost:8080
+
 

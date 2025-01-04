@@ -11,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * * entity ,we use it in services and repositories(we need it for use a concrete implementation with
+ *  * #entity manager(jpa v1)
+ */
 @Service
         //("patientServiceImplPostgres")
 @Profile("entity")

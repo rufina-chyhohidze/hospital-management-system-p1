@@ -100,7 +100,6 @@ public class PatientForm {
         this.billingAmount = billingAmount;
     }
 
-
     @Override
     public String toString() {
         return "Patient's data: {" +

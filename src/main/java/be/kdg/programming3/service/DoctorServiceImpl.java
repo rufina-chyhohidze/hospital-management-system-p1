@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Being used for jdbc and very first implementations using list
+ */
 @Service
 @Profile({"old","jdbc"})
 public class DoctorServiceImpl implements DoctorService {
     private Logger logger = LoggerFactory.getLogger(DoctorServiceImpl.class);
-
-
     private final DoctorRepository doctorRepository;
 
-    //@Autowired
     public DoctorServiceImpl(DoctorRepository doctorRepository) {
         logger.info("Creating doctor's repository...");
         this.doctorRepository = doctorRepository;
